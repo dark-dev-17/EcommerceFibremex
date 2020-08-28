@@ -11,6 +11,8 @@ namespace EcommerceApiLogic
     {
         public DarkManagerMySQL<Pedido> Pedido { get; set; }
         public DarkManagerMySQL<Usuario> Usuario { get; set; }
+        public DarkManagerMySQL<Categoria> Categoria { get; set; }
+
         public TokenValidationAction tokenValidationAction;
         public DarkDev(IConfiguration configuration, DarkMode darkMode) : base(configuration, darkMode)
         {
@@ -27,12 +29,17 @@ namespace EcommerceApiLogic
             {
                 Usuario = new DarkManagerMySQL<Usuario>(this.ConnectionMySQL);
             }
+            else if (mysqlObject == MysqlObject.Categoria)
+            {
+                Categoria = new DarkManagerMySQL<Categoria>(this.ConnectionMySQL);
+            }
         }
     }
     public enum MysqlObject
     {
         Pedido = 1,
         Usuario = 2,
+        Categoria = 3,
     }
 
 }
