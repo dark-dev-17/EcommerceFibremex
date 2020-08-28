@@ -1,0 +1,9 @@
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\bin\Debug\netstandard2.0\DbManagerDark.deps.json
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\bin\Debug\netstandard2.0\DbManagerDark.dll
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\obj\Debug\netstandard2.0\DbManagerDark.AssemblyInfoInputs.cache
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\obj\Debug\netstandard2.0\DbManagerDark.AssemblyInfo.cs
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\obj\Debug\netstandard2.0\DbManagerDark.csprojAssemblyReference.cache
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\bin\Debug\netstandard2.0\DbManagerDark.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\obj\Debug\netstandard2.0\DbManagerDark.dll
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\obj\Debug\netstandard2.0\DbManagerDark.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\DbManagerDark\obj\Debug\netstandard2.0\DbManagerDark.csproj.CoreCompileInputs.cache

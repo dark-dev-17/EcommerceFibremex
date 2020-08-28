@@ -1,0 +1,12 @@
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\bin\Release\netstandard2.0\EcommerceApiLogic.deps.json
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\bin\Release\netstandard2.0\EcommerceApiLogic.dll
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\bin\Release\netstandard2.0\EcommerceApiLogic.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\bin\Release\netstandard2.0\DbManagerDark.dll
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\bin\Release\netstandard2.0\DbManagerDark.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.csprojAssemblyReference.cache
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.AssemblyInfoInputs.cache
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.AssemblyInfo.cs
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.csproj.CoreCompileInputs.cache
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.csproj.CopyComplete
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.dll
+C:\Luis Martinez backup\Personal\Developments\NET\GrupoSplittel\GrupoSplittel\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.pdb
