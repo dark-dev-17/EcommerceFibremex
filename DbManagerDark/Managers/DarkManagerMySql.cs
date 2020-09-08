@@ -83,10 +83,39 @@ namespace DbManagerDark.Managers
 
         public int GetLastId()
         {
-            return dBConnection.GetIntegerValue(string.Format("select max(Id{0}) from {0}", Nametable));
+            return dBConnection.GetIntegerValue(string.Format("select max({0}) from {0}", KeyCol(), Nametable));
+        }
+
+        public int GetLastId(string column1, string value1)
+        {
+            return dBConnection.GetIntegerValue(string.Format("select max({0}) from {1} where {2} = '{3}'", KeyCol(), Nametable, column1, value1));
+        }
+
+        public T GetLast(string column1, string value1)
+        {
+            List<T> Lista = DataReader(string.Format("select max({0}) from {1} where {2} = '{3}'", KeyCol(), Nametable, column1, value1));
+            if (Lista.Count == 0)
+            {
+                return default(T);
+            }
+            return Lista.ElementAt(0);
         }
 
         public T Get(int? id)
+        {
+            List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}'", Nametable, KeyCol(), id));
+            if (Lista.Count == 0)
+            {
+                return default(T);
+            }
+            return Lista.ElementAt(0);
+        }
+        public List<T> GetList(string Columna1, string Columna1Val, string Columna2, string Columna1Val2)
+        {
+            List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}' and  {3} = '{4}'", Nametable, Columna1, Columna1Val, Columna2, Columna1Val2));
+            return Lista;
+        }
+        public T Get(string id)
         {
             List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}'", Nametable, KeyCol(), id));
             if (Lista.Count == 0)
@@ -241,7 +270,7 @@ namespace DbManagerDark.Managers
                             if (prop.PropertyType.Equals(typeof(TimeSpan)))
                             {
                                 var value = Data.GetValue(Data.GetOrdinal(NombrePropiedad)) is System.DBNull ? null : Data.GetValue(Data.GetOrdinal(NombrePropiedad));
-                                propertyInfo.SetValue(exFormAsObj, value, null);
+                                propertyInfo.SetValue(exFormAsObj, Convert.ChangeType(value, propertyInfo.PropertyType), null);
                             }
                             if (prop.PropertyType.Equals(typeof(double)))
                             {

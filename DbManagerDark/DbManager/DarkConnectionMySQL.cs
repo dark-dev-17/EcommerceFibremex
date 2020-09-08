@@ -30,6 +30,7 @@ namespace DbManagerDark.DbManager
             this.ConnectionString = ConnectionString;
         }
         #endregion
+
         #region Metodos
         public void StartTransaction()
         {

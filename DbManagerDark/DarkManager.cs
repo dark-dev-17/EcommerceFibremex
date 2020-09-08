@@ -126,6 +126,15 @@ namespace DbManagerDark
                 ConnectionSqlSever.Commit();
             }
         }
+
+        public DarkConnectionSqlSever GetDarkConnectionSqlSever()
+        {
+            return ConnectionSqlSever;
+        }
+        public DarkConnectionMySQL GetDarkConnectionMySQL()
+        {
+            return ConnectionMySQL;
+        }
         public void RolBack()
         {
             if (DarkMode.WebServices == darkMode)

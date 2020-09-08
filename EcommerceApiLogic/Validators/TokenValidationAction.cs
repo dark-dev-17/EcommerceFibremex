@@ -54,7 +54,20 @@ namespace EcommerceApiLogic.Validators
                 Mensaje = e.Message;
                 return false;
             }
-            
+        }
+
+        public int GetIdClienteToken(HttpContext httpContext)
+        {
+            var currentUser = httpContext.User;
+
+            if (!currentUser.HasClaim(c => c.Type == "IdCliente"))
+            {
+                throw new DarkExceptionSystem("Error, el token ha sido destruido o no se ha generadó correctamente");
+            }
+            int IdCliente = Int32.Parse(currentUser.Claims.FirstOrDefault(c => c.Type == "IdCliente").Value);
+
+
+            return IdCliente;
         }
 
         public string GenerateToken(Usuario usuarioInfo)
@@ -76,11 +89,11 @@ namespace EcommerceApiLogic.Validators
                 new Claim(JwtRegisteredClaimNames.Email, usuarioInfo.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-
+            int MinutesExpired = Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"]);
             var token = new JwtSecurityToken(configuration["Jwt:Issuer"],
                 configuration["Jwt:Audience"],
                 claims,
-                expires: DateTime.Now.AddMinutes(120),
+                expires: DateTime.Now.AddMinutes(MinutesExpired),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

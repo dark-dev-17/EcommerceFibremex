@@ -95,6 +95,30 @@ namespace DbManagerDark.Managers
             return Lista.ElementAt(0);
         }
 
+        public string ColumName(string Name)
+        {
+            string columna = "";
+            if (GetClassAttribute().IsMappedByLabels)
+            {
+                object exFormAsObj = Activator.CreateInstance(typeof(T));
+                foreach (var prop in typeof(T).GetProperties())
+                {
+                    PropertyInfo propertyInfo = exFormAsObj.GetType().GetProperty(prop.Name);
+                    DarkColumn hiddenAttribute = (DarkColumn)propertyInfo.GetCustomAttribute(typeof(DarkColumn));
+
+                    if (prop.Name == Name)
+                    {
+                        columna = hiddenAttribute.Name;
+                    }
+                }
+            }
+            else
+            {
+                columna = Name;
+            }
+
+            return columna;
+        }
         public T GetByColumn(string id, string nameCol)
         {
             List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}'", Nametable, nameCol, id));
@@ -119,7 +143,20 @@ namespace DbManagerDark.Managers
 
             return DataReader(string.Format("select * from {0} where {1} in ({2})", Nametable, nameCol, string.Join(", ", keys)));
         }
-
+        public T Get(string Columna1, string Columna1Val, string Columna2, string Columna1Val2)
+        {
+            List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}' and  {3} = '{4}'", Nametable, Columna1, Columna1Val, Columna2, Columna1Val2));
+            if (Lista.Count == 0)
+            {
+                return default(T);
+            }
+            return Lista.ElementAt(0);
+        }
+        public List<T> GetList(string Columna1, string Columna1Val, string Columna2, string Columna1Val2)
+        {
+            List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}' and  {3} = '{4}'", Nametable, Columna1, Columna1Val, Columna2, Columna1Val2));
+            return Lista;
+        }
         public List<T> Get()
         {
             return DataReader(string.Format("select * from {0}", Nametable));

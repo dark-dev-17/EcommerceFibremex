@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+   <!--<preservecompilationcontext>false</preservecompilationcontext>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
   </ItemGroup>
   <!-- Enables XML comments on Swagger-UI -->
   <PropertyGroup>
+   
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <UserSecretsId>5b9ee886-8fcf-42ea-ba09-4a2ef51feaf2</UserSecretsId>

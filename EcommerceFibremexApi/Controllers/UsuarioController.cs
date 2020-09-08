@@ -4,8 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using DbManagerDark.Exceptions;
 using EcommerceApiLogic.Models;
+using EcommerceApiLogic.Validators;
 using EcommerceFibremexApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace EcommerceFibremexApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsuarioController : ControllerBase
     {
@@ -37,47 +40,92 @@ namespace EcommerceFibremexApi.Controllers
 
         // GET api/values/5
         [HttpGet]
-        [Route("[action]")]
         [AllowAnonymous]
         public ActionResult<Usuario> Get([FromBody] Login Login)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState.Values);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Usuario o contraseña vacias");
+                }
+
+                var Result = darkDev.Usuario.Get(
+                    darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Email)), Login.User.Trim(),
+                    darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Password)), Login.Password.Trim()
+                );
+
+                if(Result == null)
+                {
+                    return Unauthorized();
+                }
+                var response = new { token = darkDev.tokenValidationAction.GenerateToken(Result), Expiration = DateTime.Now.AddMinutes(Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"])) };
+                Herramientas.EscribeLogError(JsonSerializer.Serialize(response));
+                return Ok(response);
             }
-
-            var Result = darkDev.Usuario.Get(
-                darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Email)), Login.User.Trim(),
-                darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Password)), Login.Password.Trim()
-            );
-
-            if(Result == null)
+            catch (DarkExceptionSystem ex)
             {
-                return Unauthorized();
+                return BadRequest("Error sistema");
             }
-            return Ok(new { token = darkDev.tokenValidationAction.GenerateToken(Result) });
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error usuario");
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+            
+        }
+
+        // GET api/values/5
+        [HttpGet]
+        [Route("{token}")]
+        [AllowAnonymous]
+        public ActionResult<string> Vertoken(string token)
+        {
+            Herramientas.EscribeLogError(token);
+
+            return token;
         }
 
         // POST api/values
         [HttpPost]
-        [Route("[action]")]
+        //[ApiExplorerSettings(GroupName = "v1")]
         public ActionResult Login([FromBody] Login Login)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState.Values);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("usuario o contraseña vacias");
+                }
+
+                var Result = darkDev.Usuario.Get(
+                    darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Email)), Login.User.Trim(),
+                    darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Password)), Login.Password.Trim()
+                );
+
+                if (Result == null)
+                {
+                    return Unauthorized();
+                }
+                var response = new { token = darkDev.tokenValidationAction.GenerateToken(Result), Expiration = DateTime.Now.AddMinutes(Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"])) };
+                Herramientas.EscribeLogError(JsonSerializer.Serialize(response));
+                return Ok(response);
             }
-
-            var Result = darkDev.Usuario.Get(
-                darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Email)), Login.User.Trim(),
-                darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Password)), Login.Password.Trim()
-            );
-
-            if (Result == null)
+            catch (DarkExceptionSystem ex)
             {
-                return Unauthorized();
+                return BadRequest("Error sistema");
             }
-            return Ok(new { token = darkDev.tokenValidationAction.GenerateToken(Result) });
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error usuario");
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
         }
         
     }

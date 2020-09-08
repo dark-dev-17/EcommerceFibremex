@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DbManagerDark.Exceptions;
 using EcommerceApiLogic.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -22,22 +23,60 @@ namespace EcommerceFibremexApi.Controllers
             darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ecommerce);
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.Categoria);
+            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.SubCategoria);
         }
 
         // GET: api/<CategoriaController>
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
         {
-            var Result = darkDev.Categoria.Get();
-            return Ok(Result.OrderBy(a => a.Orden ));
+            try
+            {
+                var Result = darkDev.Categoria.Get();
+                Result.ForEach(a =>
+                {
+                    a.SubCategorias = darkDev.SubCategoria.Get(a.Codigo, darkDev.SubCategoria.ColumName(nameof(darkDev.SubCategoria.Element.IdFamilia)));
+                });
+                return Ok(Result.OrderBy(a => a.Orden));
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error usuario");
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+
         }
 
         // GET api/<CategoriaController>/5
         [HttpGet("{id}")]
         public ActionResult<Categoria> Get(string id)
         {
-            var Result = darkDev.Categoria.Get(id, darkDev.Categoria.ColumName(nameof(darkDev.Categoria.Element.Codigo)));
-            return Ok(Result);
+            try
+            {
+                var Result = darkDev.Categoria.GetByColumn(id, darkDev.Categoria.ColumName(nameof(darkDev.Categoria.Element.Codigo)));
+
+                Result.SubCategorias = darkDev.SubCategoria.Get(Result.Codigo, darkDev.SubCategoria.ColumName(nameof(darkDev.SubCategoria.Element.IdFamilia)));
+                return Ok(Result);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error usuario");
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
         }
 
         // POST api/<CategoriaController>
