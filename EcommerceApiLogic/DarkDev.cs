@@ -20,6 +20,9 @@ namespace EcommerceApiLogic
         public DarkManagerMySQL<DetallePedido> DetallePedido { get; set; }
         public DarkManagerMySQL<DireccionFacturacion> DireccionFacturacion { get; set; }
         public DarkManagerMySQL<DireccionEnvio> DireccionEnvio { get; set; }
+        public DarkManagerMySQL<PedidoB2C> PedidoB2C { get; set; }
+        public DarkManagerMySQL<ViewDetallePedido> ViewDetallePedido { get; set; }
+        public DarkManagerMySQL<PedidoB2B> PedidoB2B { get; set; }
         #endregion
 
         #region Sap bussines one
@@ -77,6 +80,18 @@ namespace EcommerceApiLogic
             {
                 DireccionEnvio = new DarkManagerMySQL<DireccionEnvio>(this.ConnectionMySQL);
             }
+            else if (mysqlObject == MysqlObject.PedidoB2C)
+            {
+                PedidoB2C = new DarkManagerMySQL<PedidoB2C>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.ViewDetallePedido)
+            {
+                ViewDetallePedido = new DarkManagerMySQL<ViewDetallePedido>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.PedidoB2B)
+            {
+                PedidoB2B = new DarkManagerMySQL<PedidoB2B>(this.ConnectionMySQL);
+            }
         }
         public void LoadObject(SSQLObject sSQLObject)
         {
@@ -103,6 +118,9 @@ namespace EcommerceApiLogic
         DetallePedido = 7,
         DireccionFacturacion = 8,
         DireccionEnvio = 9,
+        PedidoB2C = 10,
+        ViewDetallePedido = 11,
+        PedidoB2B = 12,
     }
 
     public enum SSQLObject

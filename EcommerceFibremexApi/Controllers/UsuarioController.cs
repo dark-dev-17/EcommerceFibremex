@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using DbManagerDark.Exceptions;
+using EcommerceApiLogic.Herramientas;
 using EcommerceApiLogic.Models;
 using EcommerceApiLogic.Validators;
 using EcommerceFibremexApi.Models;
@@ -29,6 +30,7 @@ namespace EcommerceFibremexApi.Controllers
             darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ecommerce);
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.Usuario);
+            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.Cliente);
         }
 
         // GET api/values
@@ -59,7 +61,11 @@ namespace EcommerceFibremexApi.Controllers
                 {
                     return Unauthorized();
                 }
-                var response = new { token = darkDev.tokenValidationAction.GenerateToken(Result), Expiration = DateTime.Now.AddMinutes(Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"])) };
+                var response = new {
+                    token = darkDev.tokenValidationAction.GenerateToken(Result),
+                    Expiration = DateTime.Now.AddMinutes(Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"])),
+                    TipoCliente = darkDev.Cliente.GetByColumn(Result.IdCliente+"", darkDev.Cliente.ColumName(nameof(darkDev.Cliente.Element.IdCliente))).TipoCliente
+                };
                 Herramientas.EscribeLogError(JsonSerializer.Serialize(response));
                 return Ok(response);
             }
@@ -101,18 +107,36 @@ namespace EcommerceFibremexApi.Controllers
                     return BadRequest("usuario o contraseña vacias");
                 }
 
-                var Result = darkDev.Usuario.Get(
-                    darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Email)), Login.User.Trim(),
-                    darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Password)), Login.Password.Trim()
+                var Result = darkDev.Usuario.GetByColumn(
+                    Login.User.Trim(), darkDev.Usuario.ColumName(nameof(darkDev.Usuario.Element.Email))
                 );
-
+                
                 if (Result == null)
                 {
                     return Unauthorized();
                 }
-                var response = new { token = darkDev.tokenValidationAction.GenerateToken(Result), Expiration = DateTime.Now.AddMinutes(Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"])) };
-                Herramientas.EscribeLogError(JsonSerializer.Serialize(response));
-                return Ok(response);
+                string pass_real = "";
+                using (EncrypData encrypData = new EncrypData("password"))
+                {
+                    pass_real = encrypData.Decrypt(Result.Password);
+                }
+                if (pass_real.Trim() == Login.Password.Trim())
+                {
+                    var Cliente_re = darkDev.Cliente.GetByColumn(Result.IdCliente + "", darkDev.Cliente.ColumName(nameof(darkDev.Cliente.Element.IdCliente)));
+                    var response = new
+                    {
+                        token = darkDev.tokenValidationAction.GenerateToken(Result),
+                        Expiration = DateTime.Now.AddMinutes(Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"])),
+                        TipoCliente = Cliente_re.TipoCliente,
+                        NombreCliente = Cliente_re.Nombre,
+                    };
+                    return Ok(response);
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+                
             }
             catch (DarkExceptionSystem ex)
             {

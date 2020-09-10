@@ -29,6 +29,7 @@ namespace EcommerceFibremexApi.Controllers
         // GET: api/<CarritoController>
         [HttpGet]
         [Authorize]
+        [ApiExplorerSettings(GroupName = "v1")]
         public ActionResult<IEnumerable<Pedido>> Get()
         {
             try
@@ -38,7 +39,7 @@ namespace EcommerceFibremexApi.Controllers
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest("Error sistema: " + ex.Message);
             }
             catch (DarkExceptionUser ex)
             {
@@ -62,7 +63,7 @@ namespace EcommerceFibremexApi.Controllers
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest("Error sistema: " + ex.Message);
             }
             catch (DarkExceptionUser ex)
             {
@@ -87,7 +88,7 @@ namespace EcommerceFibremexApi.Controllers
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest("Error sistema: " + ex.Message);
             }
             catch (DarkExceptionUser ex)
             {
@@ -112,7 +113,7 @@ namespace EcommerceFibremexApi.Controllers
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest("Error sistema: " + ex.Message);
             }
             catch (DarkExceptionUser ex)
             {
@@ -137,7 +138,7 @@ namespace EcommerceFibremexApi.Controllers
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest("Error sistema: " + ex.Message);
             }
             catch (DarkExceptionUser ex)
             {

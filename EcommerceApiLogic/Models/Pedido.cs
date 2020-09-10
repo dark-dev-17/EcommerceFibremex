@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EcommerceApiLogic.Models
 {
-    [DarkTable(Name = "cotizacion_encabezado", IsMappedByLabels = true, IsStoreProcedure = false, IsView = false)]
+    [DarkTable(Name = "cotizacion_encabezado", IsMappedByLabels = true, IsStoreProcedure = false, IsView = true)]
     public class Pedido
     {
         [DarkColumn(Name = "id",IsMapped = true, IsKey = true)]

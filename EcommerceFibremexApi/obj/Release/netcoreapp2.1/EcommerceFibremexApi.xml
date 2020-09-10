@@ -4,5 +4,18 @@
         <name>EcommerceFibremexApi</name>
     </assembly>
     <members>
+        <member name="M:EcommerceFibremexApi.Controllers.DireccionFacturacionController.GetB2C">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EcommerceFibremexApi.Controllers.DireccionFacturacionController.GetB2C(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

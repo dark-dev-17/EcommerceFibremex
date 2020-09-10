@@ -84,7 +84,7 @@ namespace EcommerceFibremexApi
                 });
             });
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
+            //// Register the Swagger generator, defining 1 or more Swagger documents
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo
@@ -112,7 +112,7 @@ namespace EcommerceFibremexApi
             //    c.IncludeXmlComments(xmlPath);
             //});
 
-
+            
             //services.AddMvcCore().AddApiExplorer();
         }
 
@@ -123,17 +123,17 @@ namespace EcommerceFibremexApi
             {
                 app.UseDeveloperExceptionPage();
 
-                //// Enable middleware to serve generated Swagger as a JSON endpoint.
+                ////// Enable middleware to serve generated Swagger as a JSON endpoint.
                 //app.UseSwagger(c =>
                 //{
                 //    c.SerializeAsV2 = true;
                 //});
 
-                //// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                //// specifying the Swagger JSON endpoint.
+                //// enable middleware to serve swagger-ui (html, js, css, etc.),
+                //// specifying the swagger json endpoint.
                 //app.UseSwaggerUI(c =>
                 //{
-                //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "my api v1");
                 //    c.RoutePrefix = string.Empty;
                 //});
             }
@@ -151,6 +151,7 @@ namespace EcommerceFibremexApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
         }
     }
 }

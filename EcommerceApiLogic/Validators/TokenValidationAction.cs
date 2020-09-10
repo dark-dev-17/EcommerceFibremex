@@ -70,6 +70,20 @@ namespace EcommerceApiLogic.Validators
             return IdCliente;
         }
 
+        public string GetTipoCliente(HttpContext httpContext)
+        {
+            var currentUser = httpContext.User;
+
+            if (!currentUser.HasClaim(c => c.Type == "TipoCliente"))
+            {
+                throw new DarkExceptionSystem("Error, el token ha sido destruido o no se ha generadó correctamente");
+            }
+            string IdCliente = currentUser.Claims.FirstOrDefault(c => c.Type == "TipoCliente").Value;
+
+
+            return IdCliente;
+        }
+
         public string GenerateToken(Usuario usuarioInfo)
         {
             if(usuarioInfo == null)
@@ -86,6 +100,7 @@ namespace EcommerceApiLogic.Validators
                 new Claim("apellidos", usuarioInfo.Apellidos),
                 new Claim("rol", "cliente"),
                 new Claim("IdCliente", usuarioInfo.IdCliente.ToString()),
+                new Claim("TipoCliente", usuarioInfo.TipoCliente),
                 new Claim(JwtRegisteredClaimNames.Email, usuarioInfo.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
