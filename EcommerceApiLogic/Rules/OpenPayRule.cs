@@ -174,7 +174,7 @@ namespace EcommerceApiLogic.Rules
                         throw new DarkExceptionUser(string.Format("No se pudo guardar la información acerca de tu pedido E-commerce No. {0}", requestPedido.IdPedido));
                     }
 
-                    // enviar correo de confirmacion "Pedido creado"
+                    // enviar correo de confirmacion "Pedido creado"dffd
 
 
                 }
