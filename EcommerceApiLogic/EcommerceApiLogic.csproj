@@ -7,11 +7,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DbManagerDark\DbManagerDark.csproj" />
+    <ProjectReference Include="..\openpay-dotnet-master\Openpay\Openpay.csproj" />
   </ItemGroup>
 
 </Project>

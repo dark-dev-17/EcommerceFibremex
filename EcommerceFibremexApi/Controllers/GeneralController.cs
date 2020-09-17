@@ -25,6 +25,7 @@ namespace EcommerceFibremexApi.Controllers
             darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ambos);
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.SSQLObject.TipoCambio);
+            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.OpenPayKeys);
         }
 
         // GET: api/<GeneralController>
@@ -64,30 +65,36 @@ namespace EcommerceFibremexApi.Controllers
 
             
         }
-
-        // GET api/<GeneralController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: api/<GeneralController>
+        [HttpGet]
+        public ActionResult<TipoCambio> GetOpenPay()
         {
-            return "value";
+            try
+            {
+
+                DateTime Hoy = DateTime.Now;
+                var Result = darkDev.OpenPayKeys.Get("1");
+                if(Result == null)
+                {
+                    throw new DarkExceptionUser("No se encontraron los datos maestros");
+                }
+                return Ok(Result);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+
+            
         }
 
-        // POST api/<GeneralController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<GeneralController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<GeneralController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

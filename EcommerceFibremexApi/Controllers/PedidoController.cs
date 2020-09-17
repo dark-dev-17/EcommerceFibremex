@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DbManagerDark.Exceptions;
 using EcommerceApiLogic.Models;
+using EcommerceApiLogic.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace EcommerceFibremexApi.Controllers
         {
             darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ecommerce);
             darkDev.OpenConnection();
-            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.Pedido);
+            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ViewPedido);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.PedidoB2C);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.PedidoB2B);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ViewDetallePedido);
@@ -36,7 +37,7 @@ namespace EcommerceFibremexApi.Controllers
         {
             try
             {
-                return Ok(darkDev.Pedido.Get("" + darkDev.tokenValidationAction.GetIdClienteToken(HttpContext), darkDev.Pedido.ColumName(nameof(darkDev.Pedido.Element.IdCliente))));
+                return Ok(darkDev.ViewPedido.Get("" + darkDev.tokenValidationAction.GetIdClienteToken(HttpContext), darkDev.ViewPedido.ColumName(nameof(darkDev.ViewPedido.Element.IdCliente))));
             }
             catch (DarkExceptionSystem ex)
             {
@@ -56,11 +57,11 @@ namespace EcommerceFibremexApi.Controllers
         [HttpGet("{id}")]
         [Route("[action]/{id}")]
         [Authorize]
-        public ActionResult<Pedido> Get(int id)
+        public ActionResult<ViewPedido> Get(int id)
         {
             try
             {
-                var result = darkDev.Pedido.GetByColumn("" + id, darkDev.Pedido.ColumName(nameof(darkDev.Pedido.Element.IdPedido)));
+                var result = darkDev.ViewPedido.GetByColumn("" + id, darkDev.ViewPedido.ColumName(nameof(darkDev.ViewPedido.Element.IdPedido)));
                 if (!darkDev.tokenValidationAction.Validation(result.IdCliente, HttpContext, EcommerceApiLogic.Validators.TokenValidationType.Pedido))
                 {
                     return Unauthorized();

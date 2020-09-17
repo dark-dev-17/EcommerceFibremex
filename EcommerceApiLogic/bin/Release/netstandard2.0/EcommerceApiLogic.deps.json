@@ -13,6 +13,7 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
           "Microsoft.IdentityModel.Tokens": "6.7.1",
           "NETStandard.Library": "2.0.3",
+          "Openpay": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.7.1"
         },
         "runtime": {
@@ -908,6 +909,19 @@
         "runtime": {
           "DbManagerDark.dll": {}
         }
+      },
+      "Openpay/1.0.0": {
+        "runtime": {
+          "Openpay.dll": {}
+        }
+      },
+      "Newtonsoft.Json/9.0.0.0": {
+        "runtime": {
+          "Newtonsoft.Json.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1.19813"
+          }
+        }
       }
     }
   },
@@ -1486,6 +1500,16 @@
     },
     "DbManagerDark/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Openpay/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/9.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

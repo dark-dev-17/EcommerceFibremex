@@ -4600,6 +4600,8 @@
           "DbManagerDark": "1.0.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
           "Microsoft.IdentityModel.Tokens": "6.7.1",
+          "Newtonsoft.Json": "9.0.1",
+          "Openpay": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.7.1"
         },
         "compile": {
@@ -4607,6 +4609,15 @@
         },
         "runtime": {
           "bin/placeholder/EcommerceApiLogic.dll": {}
+        }
+      },
+      "Openpay/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Openpay.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Openpay.dll": {}
         }
       }
     }
@@ -12454,6 +12465,11 @@
       "type": "project",
       "path": "../EcommerceApiLogic/EcommerceApiLogic.csproj",
       "msbuildProject": "../EcommerceApiLogic/EcommerceApiLogic.csproj"
+    },
+    "Openpay/1.0.0": {
+      "type": "project",
+      "path": "../openpay-dotnet-master/Openpay/Openpay.csproj",
+      "msbuildProject": "../openpay-dotnet-master/Openpay/Openpay.csproj"
     }
   },
   "projectFileDependencyGroups": {

@@ -39,6 +39,13 @@ namespace EcommerceFibremexApi.Controllers
             var Result = darkDev.SubCategoria.Get(id, darkDev.SubCategoria.ColumName(nameof(darkDev.SubCategoria.Element.IdSubcategoria)));
             return Ok(Result);
         }
+        // GET api/<SubCategoriaController>/5
+        [HttpGet("{id}")]
+        public ActionResult<IEnumerable<SubCategoria>> GetByCategoria(string id)
+        {
+            var Result = darkDev.SubCategoria.Get(id, darkDev.SubCategoria.ColumName(nameof(darkDev.SubCategoria.Element.IdFamilia)));
+            return Ok(Result);
+        }
 
         // POST api/<SubCategoriaController>
         [HttpPost]

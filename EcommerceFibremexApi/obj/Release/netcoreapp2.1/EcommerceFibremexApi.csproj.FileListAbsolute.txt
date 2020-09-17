@@ -50,3 +50,5 @@ C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFib
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.xml
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.pdb
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.genruntimeconfig.cache
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\bin\Release\netcoreapp2.1\Openpay.dll
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\bin\Release\netcoreapp2.1\Openpay.pdb

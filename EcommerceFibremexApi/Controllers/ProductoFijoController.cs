@@ -27,11 +27,12 @@ namespace EcommerceFibremexApi.Controllers
 
         // GET: api/<ProductoFijoController>
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<ProductoFijo>> Get()
         {
             try
             {
-                var Result = darkDev.ProductoFijo.Get();
+                var Result = darkDev.ProductoFijo.Get().Where(a => a.CodigoConfigurable == "" && a.ProductoActivo == "si");
                 return Ok(Result.OrderBy(a => a.Descripcion ));
             }
             catch (DarkExceptionSystem ex)
@@ -51,11 +52,13 @@ namespace EcommerceFibremexApi.Controllers
 
         // GET: api/<ProductoFijoController>
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<IEnumerable<ProductoFijo>> Categoria(string id)
         {
             try
             {
-                var Result = darkDev.ProductoFijo.Get(id, darkDev.ProductoFijo.ColumName(nameof(darkDev.ProductoFijo.Element.IdCategoria)));
+                var Result = darkDev.ProductoFijo.Get(id, darkDev.ProductoFijo.ColumName(nameof(darkDev.ProductoFijo.Element.IdCategoria)))
+                    .Where(a => a.CodigoConfigurable == "" && a.ProductoActivo == "si");
                 return Ok(Result.OrderBy(a => a.Descripcion));
             }
             catch (DarkExceptionSystem ex)
@@ -75,11 +78,13 @@ namespace EcommerceFibremexApi.Controllers
 
         // GET: api/<ProductoFijoController>
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<IEnumerable<ProductoFijo>> SubCategoria(string id)
         {
             try
             {
-                var Result = darkDev.ProductoFijo.Get(id, darkDev.ProductoFijo.ColumName(nameof(darkDev.ProductoFijo.Element.IdSubcategoria)));
+                var Result = darkDev.ProductoFijo.Get(id, darkDev.ProductoFijo.ColumName(nameof(darkDev.ProductoFijo.Element.IdSubcategoria)))
+                    .Where(a => a.CodigoConfigurable == "" && a.ProductoActivo == "si"); ;
                 return Ok(Result.OrderBy(a => a.Descripcion));
             }
             catch (DarkExceptionSystem ex)
@@ -99,6 +104,7 @@ namespace EcommerceFibremexApi.Controllers
 
         // GET api/<ProductoFijoController>/5
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<ProductoFijo> Get(string id)
         {
             try

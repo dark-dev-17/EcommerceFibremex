@@ -101,7 +101,7 @@ namespace EcommerceFibremexApi.Controllers
         }
 
         // PUT api/<CarritoController>/5
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public ActionResult Update([FromBody] NuevoArticulo nuevoArticulo)
         {
@@ -109,7 +109,7 @@ namespace EcommerceFibremexApi.Controllers
             {
                 PedidoRule pedidoRule = new PedidoRule(darkDev, darkDev.tokenValidationAction.GetIdClienteToken(HttpContext));
                 pedidoRule.CambiarCantidad(nuevoArticulo.CodigoProducto, nuevoArticulo.Cantidad, nuevoArticulo.IdPedido);
-                return Ok("Producto actualizado");
+                return Ok(new { IdPedido = nuevoArticulo.IdPedido, Mensaje = "Producto actualizado", error = false });
             }
             catch (DarkExceptionSystem ex)
             {
@@ -126,15 +126,40 @@ namespace EcommerceFibremexApi.Controllers
         }
 
         // DELETE api/<CarritoController>/5
-        [HttpDelete("{IdPedido}/{ProductoCode}")]
+        [HttpPost("{IdPedido}/{ProductoCode}")]
         [Authorize]
+        [EnableCors("SplittelPolicy")]
         public ActionResult Delete(int IdPedido, string ProductoCode)
         {
             try
             {
                 PedidoRule pedidoRule = new PedidoRule(darkDev, darkDev.tokenValidationAction.GetIdClienteToken(HttpContext));
                 pedidoRule.EliminarProducto(ProductoCode, IdPedido);
-                return Ok("Producto eliminado");
+                return Ok(new { IdPedido = IdPedido, Mensaje = "Producto eliminado", error = false });
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema: " + ex.Message);
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error: " + ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+        }
+        [HttpPost]
+        [Authorize]
+        [EnableCors("SplittelPolicy")]
+        public ActionResult Pagar(RequestPedido requestPedido)
+        {
+            try
+            {
+                OpenPayRule OpenPayRule = new OpenPayRule(darkDev, darkDev.tokenValidationAction.GetIdClienteToken(HttpContext), requestPedido.IdPedido);
+                OpenPayRule.CheateChargeCard(requestPedido);
+                return Ok(new { IdPedido = requestPedido.IdPedido, Mensaje = "Producto eliminado", error = false });
             }
             catch (DarkExceptionSystem ex)
             {

@@ -47,7 +47,7 @@ namespace EcommerceFibremexApi.Controllers
                     return Unauthorized();
                 }
                 var Detalle_re = darkDev.ViewDetallePedido.Get(""+ id, darkDev.ViewDetallePedido.ColumName(nameof(darkDev.ViewDetallePedido.Element.IdPedido)));
-                return Ok(Detalle_re);
+                return Ok(Detalle_re.Where(a => a.DetalleActivo == "si"));
             }
             catch (DarkExceptionSystem ex)
             {

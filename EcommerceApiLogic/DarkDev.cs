@@ -3,6 +3,7 @@ using DbManagerDark.Managers;
 using EcommerceApiLogic.Models;
 using EcommerceApiLogic.ModelsSap;
 using EcommerceApiLogic.Validators;
+using EcommerceApiLogic.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -23,6 +24,11 @@ namespace EcommerceApiLogic
         public DarkManagerMySQL<PedidoB2C> PedidoB2C { get; set; }
         public DarkManagerMySQL<ViewDetallePedido> ViewDetallePedido { get; set; }
         public DarkManagerMySQL<PedidoB2B> PedidoB2B { get; set; }
+        public DarkManagerMySQL<ViewPedido> ViewPedido { get; set; }
+        public DarkManagerMySQL<OpenPayKeys> OpenPayKeys { get; set; }
+        public DarkManagerMySQL<SeguimientB2C> SeguimientB2C { get; set; }
+        public DarkManagerMySQL<SeguimientB2B> SeguimientB2B { get; set; }
+        public DarkManagerMySQL<OpenPayLog> OpenPayLog { get; set; }
         #endregion
 
         #region Sap bussines one
@@ -92,6 +98,26 @@ namespace EcommerceApiLogic
             {
                 PedidoB2B = new DarkManagerMySQL<PedidoB2B>(this.ConnectionMySQL);
             }
+            else if (mysqlObject == MysqlObject.ViewPedido)
+            {
+                ViewPedido = new DarkManagerMySQL<ViewPedido>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.OpenPayKeys)
+            {
+                OpenPayKeys = new DarkManagerMySQL<OpenPayKeys>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.SeguimientB2B)
+            {
+                SeguimientB2B = new DarkManagerMySQL<SeguimientB2B>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.SeguimientB2C)
+            {
+                SeguimientB2C = new DarkManagerMySQL<SeguimientB2C>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.OpenPayLog)
+            {
+                OpenPayLog = new DarkManagerMySQL<OpenPayLog>(this.ConnectionMySQL);
+            }
         }
         public void LoadObject(SSQLObject sSQLObject)
         {
@@ -121,6 +147,11 @@ namespace EcommerceApiLogic
         PedidoB2C = 10,
         ViewDetallePedido = 11,
         PedidoB2B = 12,
+        ViewPedido = 13,
+        OpenPayKeys = 14,
+        SeguimientB2B = 15,
+        SeguimientB2C = 16,
+        OpenPayLog = 17,
     }
 
     public enum SSQLObject

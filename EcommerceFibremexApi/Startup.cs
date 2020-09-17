@@ -69,19 +69,19 @@ namespace EcommerceFibremexApi
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllHeaders",
-                      builder =>
-                      {
-                          builder.AllowAnyOrigin()
-                                 .AllowAnyHeader()
-                                 .AllowAnyMethod();
-                      });
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
                 options.AddPolicy("SplittelPolicy",
-                builder =>
-                {
-                    builder.WithOrigins("http://www.Splittel.com")
-                                        .AllowAnyHeader()
-                                        .AllowAnyMethod();
-                });
+                    builder =>
+                    {
+                        builder.WithOrigins("http://www.Splittel.com")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
             });
 
             //// Register the Swagger generator, defining 1 or more Swagger documents

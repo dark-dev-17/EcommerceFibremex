@@ -22,3 +22,7 @@ C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApi
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.csproj.CopyComplete
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.dll
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApiLogic\obj\Release\netstandard2.0\EcommerceApiLogic.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApiLogic\bin\Release\netstandard2.0\Openpay.dll
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApiLogic\bin\Release\netstandard2.0\Newtonsoft.Json.dll
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApiLogic\bin\Release\netstandard2.0\Openpay.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceApiLogic\bin\Release\netstandard2.0\Newtonsoft.Json.xml

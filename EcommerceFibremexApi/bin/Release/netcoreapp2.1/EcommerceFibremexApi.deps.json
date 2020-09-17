@@ -690,6 +690,7 @@
           "DbManagerDark": "1.0.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
           "Microsoft.IdentityModel.Tokens": "6.7.1",
+          "Openpay": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.7.1"
         },
         "runtime": {
@@ -697,6 +698,14 @@
         },
         "compile": {
           "EcommerceApiLogic.dll": {}
+        }
+      },
+      "Openpay/1.0.0": {
+        "runtime": {
+          "Openpay.dll": {}
+        },
+        "compile": {
+          "Openpay.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -3911,6 +3920,11 @@
       "sha512": ""
     },
     "EcommerceApiLogic/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Openpay/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
