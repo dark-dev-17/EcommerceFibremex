@@ -1,5 +1,6 @@
 ﻿using DbManagerDark.Attributes;
 using DbManagerDark.DbManager;
+using DbManagerDark.Exceptions;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,11 @@ namespace DbManagerDark.Managers
         public bool Add()
         {
             DarkTable tableDefinifiton = GetClassAttribute();
+            if (tableDefinifiton.IsView)
+            {
+                throw new DarkExceptionSystem("El modelo fue declarado como vista, solo puede ser utilizado para lectura de datos");
+            }
+
             if (tableDefinifiton.IsStoreProcedure)
             {
                 return ActionsObject(DbManagerTypes.Add);
@@ -58,6 +64,10 @@ namespace DbManagerDark.Managers
         public bool Update()
         {
             DarkTable tableDefinifiton = GetClassAttribute();
+            if (tableDefinifiton.IsView)
+            {
+                throw new DarkExceptionSystem("El modelo fue declarado como vista, solo puede ser utilizado para lectura de datos");
+            }
             if (tableDefinifiton.IsStoreProcedure)
             {
                 return ActionsObject(DbManagerTypes.Update);
@@ -71,6 +81,10 @@ namespace DbManagerDark.Managers
         public bool Delete()
         {
             DarkTable tableDefinifiton = GetClassAttribute();
+            if (tableDefinifiton.IsView)
+            {
+                throw new DarkExceptionSystem("El modelo fue declarado como vista, solo puede ser utilizado para lectura de datos");
+            }
             if (tableDefinifiton.IsStoreProcedure)
             {
                 return ActionsObject(DbManagerTypes.Delete);

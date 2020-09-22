@@ -43,7 +43,6 @@ C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFib
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.csproj.CoreCompileInputs.cache
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.RazorAssemblyInfo.cache
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.RazorAssemblyInfo.cs
-C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\UserSecretsAssemblyInfo.cs
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.RazorTargetAssemblyInfo.cache
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.csproj.CopyComplete
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Release\netcoreapp2.1\EcommerceFibremexApi.dll

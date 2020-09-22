@@ -51,4 +51,3 @@ C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFib
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\bin\Debug\netcoreapp2.1\Openpay.dll
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\bin\Debug\netcoreapp2.1\Openpay.pdb
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Debug\netcoreapp2.1\EcommerceFibremexApi.csproj.CoreCompileInputs.cache
-C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs

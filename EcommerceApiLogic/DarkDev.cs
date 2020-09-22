@@ -1,5 +1,6 @@
 ﻿using DbManagerDark;
 using DbManagerDark.Managers;
+using EcommerceApiLogic.Herramientas;
 using EcommerceApiLogic.Models;
 using EcommerceApiLogic.ModelsSap;
 using EcommerceApiLogic.Validators;
@@ -38,12 +39,18 @@ namespace EcommerceApiLogic
 
         #region Propiedades extras
         public TokenValidationAction tokenValidationAction;
+        public FtpFiles FtpFiles;
         #endregion
 
         #region Constructores
         public DarkDev(IConfiguration configuration, DarkMode darkMode) : base(configuration, darkMode)
         {
             tokenValidationAction = new TokenValidationAction(configuration);
+            FtpFiles = new FtpFiles(
+                configuration.GetSection("Ftp").GetSection("Server").Value, 
+                configuration.GetSection("Ftp").GetSection("User").Value, 
+                configuration.GetSection("Ftp").GetSection("Password").Value
+            );
         }
         #endregion
 

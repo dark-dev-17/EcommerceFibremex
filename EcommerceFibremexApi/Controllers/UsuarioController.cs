@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
+
 using System.Threading.Tasks;
 using DbManagerDark.Exceptions;
 using EcommerceApiLogic.Herramientas;
@@ -12,6 +12,7 @@ using EcommerceApiLogic.Models;
 using EcommerceApiLogic.Validators;
 using EcommerceFibremexApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -66,7 +67,7 @@ namespace EcommerceFibremexApi.Controllers
                     Expiration = DateTime.Now.AddMinutes(Int32.Parse(configuration["Jwt:TokenExpirationInMinutes"])),
                     TipoCliente = darkDev.Cliente.GetByColumn(Result.IdCliente+"", darkDev.Cliente.ColumName(nameof(darkDev.Cliente.Element.IdCliente))).TipoCliente
                 };
-                Herramientas.EscribeLogError(JsonSerializer.Serialize(response));
+                //Herramientas.EscribeLogError(JsonSerializer.Serialize(response));
                 return Ok(response);
             }
             catch (DarkExceptionSystem ex)
@@ -97,6 +98,7 @@ namespace EcommerceFibremexApi.Controllers
 
         // POST api/values
         [HttpPost]
+        [EnableCors("AllowAllHeaders")]
         //[ApiExplorerSettings(GroupName = "v1")]
         public ActionResult Login([FromBody] Login Login)
         {

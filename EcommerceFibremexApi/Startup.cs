@@ -35,6 +35,35 @@ namespace EcommerceFibremexApi
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Ecommerce api",
+                    Description = "A simple example ASP.NET Core Web API",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Shayne Boyer",
+                        Email = string.Empty,
+                        Url = new Uri("https://twitter.com/spboyer"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://example.com/license"),
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -84,36 +113,9 @@ namespace EcommerceFibremexApi
                     });
             });
 
-            //// Register the Swagger generator, defining 1 or more Swagger documents
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo
-            //    {
-            //        Version = "v1",
-            //        Title = "Ecommerce api",
-            //        Description = "A simple example ASP.NET Core Web API",
-            //        TermsOfService = new Uri("https://example.com/terms"),
-            //        Contact = new OpenApiContact
-            //        {
-            //            Name = "Shayne Boyer",
-            //            Email = string.Empty,
-            //            Url = new Uri("https://twitter.com/spboyer"),
-            //        },
-            //        License = new OpenApiLicense
-            //        {
-            //            Name = "Use under LICX",
-            //            Url = new Uri("https://example.com/license"),
-            //        }
-            //    });
 
-            //    // Set the comments path for the Swagger JSON and UI.
-            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            //    c.IncludeXmlComments(xmlPath);
-            //});
 
-            
-            //services.AddMvcCore().AddApiExplorer();
+            services.AddMvcCore().AddApiExplorer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,24 +125,34 @@ namespace EcommerceFibremexApi
             {
                 app.UseDeveloperExceptionPage();
 
-                ////// Enable middleware to serve generated Swagger as a JSON endpoint.
-                //app.UseSwagger(c =>
-                //{
-                //    c.SerializeAsV2 = true;
-                //});
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
 
-                //// enable middleware to serve swagger-ui (html, js, css, etc.),
-                //// specifying the swagger json endpoint.
-                //app.UseSwaggerUI(c =>
-                //{
-                //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "my api v1");
-                //    c.RoutePrefix = string.Empty;
-                //});
+                // enable middleware to serve swagger-ui (html, js, css, etc.),
+                // specifying the swagger json endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "web api e-commerce test");
+                    c.RoutePrefix = string.Empty;
+                });
+
             }
             else
             {
                 app.UseHsts();
+
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+
+                // enable middleware to serve swagger-ui (html, js, css, etc.),
+                // specifying the swagger json endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("./v1/swagger.json", "web api e-commerce prod");
+                    c.RoutePrefix = string.Empty;
+                });
             }
+
 
             // global cors policy
             app.UseCors("AllowAllHeaders");

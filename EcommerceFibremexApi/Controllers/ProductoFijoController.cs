@@ -18,8 +18,10 @@ namespace EcommerceFibremexApi.Controllers
     public class ProductoFijoController : ControllerBase
     {
         private EcommerceApiLogic.DarkDev darkDev;
+        private IConfiguration configuration;
         public ProductoFijoController(IConfiguration configuration)
         {
+            this.configuration = configuration;
             darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ecommerce);
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ProductoFijo);
@@ -110,6 +112,16 @@ namespace EcommerceFibremexApi.Controllers
             try
             {
                 var Result = darkDev.ProductoFijo.Get(id);
+
+                var Images = darkDev.FtpFiles.GetFiles(string.Format("public_html/fibra-optica/public/images/img_spl/productos/{0}/*.jpg", id));
+
+                string Domain = configuration.GetSection("Ftp").GetSection("Domain").Value;
+
+                Result.SlideImg = new List<string>();
+
+                Images.ForEach(a => {
+                    Result.SlideImg.Add(string.Format(@"{0}/fibra-optica/public/images/img_spl/productos/{1}/{2}", Domain, id, a));
+                });
                 return Ok(Result);
             }
             catch (DarkExceptionSystem ex)

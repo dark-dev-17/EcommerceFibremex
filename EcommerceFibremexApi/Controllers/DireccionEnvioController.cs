@@ -87,20 +87,75 @@ namespace EcommerceFibremexApi.Controllers
 
         // POST api/<DireccionEnvioController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult CreateB2C([FromBody] DireccionEnvio DireccionEnvio)
         {
+            try
+            {
+                darkDev.DireccionEnvio.Element = DireccionEnvio;
+                darkDev.DireccionEnvio.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                if (darkDev.DireccionEnvio.Add())
+                {
+                    return Ok(new { error = false, message = "Dirección agregada", data = DireccionEnvio });
+                }
+                else
+                {
+                    return BadRequest("Dirección no agregada");
+                }
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error: " + ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
         }
 
-        // PUT api/<DireccionEnvioController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // POST api/<DireccionEnvioController>
+        [HttpPost]
+        public ActionResult EditB2C([FromBody] DireccionEnvio DireccionEnvio)
         {
-        }
+            try
+            {
+                var Direccion_re = darkDev.DireccionEnvio.Get(DireccionEnvio.IdDireccionEnvio);
+                int idCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                if (Direccion_re == null)
+                {
+                    throw new DarkExceptionUser("La dirección requerida no fue encontrada");
+                }
 
-        // DELETE api/<DireccionEnvioController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                if(Direccion_re.IdCliente != idCliente)
+                {
+                    throw new DarkExceptionUser("No puedes actualizar esta direccion");
+                }
+
+                darkDev.DireccionEnvio.Element = DireccionEnvio;
+                if (darkDev.DireccionEnvio.Update())
+                {
+                    return Ok(new { error = false, message = "Dirección actualizada", data = DireccionEnvio });
+                }
+                else
+                {
+                    return BadRequest("Dirección no actualizada");
+                }
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error: " + ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
         }
     }
 }

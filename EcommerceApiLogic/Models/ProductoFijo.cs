@@ -122,5 +122,8 @@ namespace EcommerceApiLogic.Models
         [DarkColumn(Name = "ruta", IsMapped = true, IsKey = false)]
         public string RutaFicha { get; set; }
 
+        [DarkColumn(Name = "ImagenesSlide", IsMapped = true, IsKey = false)]
+        public List<string> SlideImg { get; set; }
+
     }
 }

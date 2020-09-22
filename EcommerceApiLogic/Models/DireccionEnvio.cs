@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EcommerceApiLogic.Models
 {
-    [DarkTable(Name = "datos_envio", IsMappedByLabels = true, IsStoreProcedure = false, IsView = true)]
+    [DarkTable(Name = "datos_envio", IsMappedByLabels = true, IsStoreProcedure = false, IsView = false)]
     public class DireccionEnvio
     {
         [DarkColumn(Name = "id", IsMapped = true, IsKey = true)]

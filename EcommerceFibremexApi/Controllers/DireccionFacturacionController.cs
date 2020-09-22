@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Swashbuckle.AspNetCore.Annotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,6 +35,8 @@ namespace EcommerceFibremexApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Produces(typeof(DireccionFacturacion))]
+        [SwaggerResponse(200,Type = typeof(DireccionFacturacion))]
         [Authorize]
         public ActionResult<IEnumerable<DireccionFacturacion>> GetB2C()
         {
@@ -96,20 +99,75 @@ namespace EcommerceFibremexApi.Controllers
 
         // POST api/<DireccionFacturacionController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult CreateB2C([FromBody] DireccionFacturacion DireccionFacturacion)
         {
+            try
+            {
+                darkDev.DireccionFacturacion.Element = DireccionFacturacion;
+                darkDev.DireccionFacturacion.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                if (darkDev.DireccionFacturacion.Add())
+                {
+                    return Ok(new { error = false, message = "Dirección agregada", data = DireccionFacturacion });
+                }
+                else
+                {
+                    return BadRequest("Dirección no guardada");
+                }
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error: " + ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
         }
 
-        // PUT api/<DireccionFacturacionController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost]
+        public ActionResult EditB2B([FromBody] DireccionFacturacion DireccionFacturacion)
         {
+            try
+            {
+                var Direccion_re = darkDev.DireccionFacturacion.Get(DireccionFacturacion.IdDireccionFacturacion);
+                int idCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                if (Direccion_re == null)
+                {
+                    throw new DarkExceptionUser("La dirección requerida no fue encontrada");
+                }
+
+                if (Direccion_re.IdCliente != idCliente)
+                {
+                    throw new DarkExceptionUser("No puedes actualizar esta direccion");
+                }
+
+                darkDev.DireccionFacturacion.Element = DireccionFacturacion;
+                if (darkDev.DireccionFacturacion.Update())
+                {
+                    return Ok(new { error = false, message = "Dirección actualizada", data = DireccionFacturacion });
+                }
+                else
+                {
+                    return BadRequest("Dirección no actualizada");
+                }
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error: " + ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
         }
 
-        // DELETE api/<DireccionFacturacionController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
