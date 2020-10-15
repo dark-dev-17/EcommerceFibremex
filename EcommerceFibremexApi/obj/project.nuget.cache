@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "CXYxCeNb40aDVSNcJ+Zfi02mv3t+YgYERHu5837XW4ea02vtfPZ0N1GFWFgK6WECrj1599izMnaYuqRgI5GM1Q==",
+  "dgSpecHash": "ubIX9IV/vrY3ywSNdBXJnxQpGVgVM+ZtKeA8x93ET+SFZF0+/f5du7A82icUp/e9wgxE/Prrf4fZ5OBMBxvG7A==",
   "success": true,
   "projectFilePath": "C:\\Luis Martinez backup\\Personal\\Developments\\NET\\EcommerceFibremex\\EcommerceFibremexApi\\EcommerceFibremexApi.csproj",
   "expectedPackageFiles": [
@@ -216,7 +216,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.collections.immutable\\1.5.0\\system.collections.immutable.1.5.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.collections.nongeneric\\4.3.0\\system.collections.nongeneric.4.3.0.nupkg.sha512",
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.collections.specialized\\4.3.0\\system.collections.specialized.4.3.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.componentmodel.annotations\\4.5.0\\system.componentmodel.annotations.4.5.0.nupkg.sha512",
+    "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.configuration.configurationmanager\\4.4.1\\system.configuration.configurationmanager.4.4.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.console\\4.3.0\\system.console.4.3.0.nupkg.sha512",
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.data.sqlclient\\4.8.2\\system.data.sqlclient.4.8.2.nupkg.sha512",

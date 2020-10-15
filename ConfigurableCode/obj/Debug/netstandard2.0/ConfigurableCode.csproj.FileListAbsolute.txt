@@ -1,0 +1,9 @@
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\bin\Debug\netstandard2.0\ConfigurableCode.deps.json
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\bin\Debug\netstandard2.0\ConfigurableCode.dll
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\obj\Debug\netstandard2.0\ConfigurableCode.AssemblyInfoInputs.cache
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\obj\Debug\netstandard2.0\ConfigurableCode.AssemblyInfo.cs
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\bin\Debug\netstandard2.0\ConfigurableCode.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\obj\Debug\netstandard2.0\ConfigurableCode.csproj.CoreCompileInputs.cache
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\obj\Debug\netstandard2.0\ConfigurableCode.dll
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\obj\Debug\netstandard2.0\ConfigurableCode.pdb
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\ConfigurableCode\obj\Debug\netstandard2.0\ConfigurableCode.csprojAssemblyReference.cache

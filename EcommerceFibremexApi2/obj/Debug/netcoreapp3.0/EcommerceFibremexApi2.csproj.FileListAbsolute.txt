@@ -82,3 +82,6 @@ C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFib
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi2\obj\Debug\netcoreapp3.0\EcommerceFibremexApi2.csproj.CoreCompileInputs.cache
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi2\obj\Debug\netcoreapp3.0\EcommerceFibremexApi2.MvcApplicationPartsAssemblyInfo.cs
 C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi2\obj\Debug\netcoreapp3.0\EcommerceFibremexApi2.MvcApplicationPartsAssemblyInfo.cache
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi2\bin\Debug\netcoreapp3.0\System.ComponentModel.Annotations.dll
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi2\bin\Debug\netcoreapp3.0\ConfigurableCode.dll
+C:\Luis Martinez backup\Personal\Developments\NET\EcommerceFibremex\EcommerceFibremexApi2\bin\Debug\netcoreapp3.0\ConfigurableCode.pdb

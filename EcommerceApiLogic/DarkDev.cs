@@ -30,6 +30,7 @@ namespace EcommerceApiLogic
         public DarkManagerMySQL<SeguimientB2C> SeguimientB2C { get; set; }
         public DarkManagerMySQL<SeguimientB2B> SeguimientB2B { get; set; }
         public DarkManagerMySQL<OpenPayLog> OpenPayLog { get; set; }
+        public DarkSpecialMySQL<HomeSlide> HomeSlide { get; set; }
         #endregion
 
         #region Sap bussines one
@@ -125,6 +126,10 @@ namespace EcommerceApiLogic
             {
                 OpenPayLog = new DarkManagerMySQL<OpenPayLog>(this.ConnectionMySQL);
             }
+            else if (mysqlObject == MysqlObject.HomeSlide)
+            {
+                HomeSlide = new DarkSpecialMySQL<HomeSlide>(this.ConnectionMySQL);
+            }
         }
         public void LoadObject(SSQLObject sSQLObject)
         {
@@ -159,6 +164,7 @@ namespace EcommerceApiLogic
         SeguimientB2B = 15,
         SeguimientB2C = 16,
         OpenPayLog = 17,
+        HomeSlide = 18,
     }
 
     public enum SSQLObject

@@ -39,7 +39,6 @@ namespace EcommerceFibremexApi2.Controllers
         /// <response code="400">Errores de sistema y errores de usuario</response>
         /// <response code="401">Sin autorizacion(token caducado)</response>
         [HttpGet]
-        [EnableCors("AllowAllHeaders")]
         [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(200)]
@@ -116,7 +115,6 @@ namespace EcommerceFibremexApi2.Controllers
         /// <response code="401">Sin autorizacion(token caducado)</response>
         // GET api/values
         [HttpGet]
-        [EnableCors("AllowAllHeaders")]
         [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(200)]
@@ -208,7 +206,6 @@ namespace EcommerceFibremexApi2.Controllers
         /// <response code="400">Errores de sistema y errores de usuario</response>
         /// <response code="401">Sin autorizacion(token caducado)</response>
         [HttpGet]
-        [EnableCors("AllowAllHeaders")]
         [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(200)]

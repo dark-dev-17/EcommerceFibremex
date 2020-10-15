@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KSiS3qUJ1hKbLxvOMKnH08WmU8q6bs25AtOGmV6Qek0zYJn3IePeh3lmGtK/l/OqTbxjk1VBfI73DXMcuAM1Xw==",
+  "dgSpecHash": "FX6CU9kNxAUo6dKJERBC3xbiO5DvayaHVJTalgx09kEhbPz7YRUyMqYnDkgaIMGhvhUYsVyHOYl74AsF/KSkYw==",
   "success": true,
   "projectFilePath": "C:\\Luis Martinez backup\\Personal\\Developments\\NET\\EcommerceFibremex\\EcommerceApiLogic\\EcommerceApiLogic.csproj",
   "expectedPackageFiles": [
@@ -34,6 +34,7 @@
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.collections\\4.0.11\\system.collections.4.0.11.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.collections.concurrent\\4.0.12\\system.collections.concurrent.4.0.12.nupkg.sha512",
+    "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.configuration.configurationmanager\\4.4.1\\system.configuration.configurationmanager.4.4.1.nupkg.sha512",
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.data.sqlclient\\4.8.2\\system.data.sqlclient.4.8.2.nupkg.sha512",
     "C:\\Users\\Luis Martinez\\.nuget\\packages\\system.diagnostics.debug\\4.0.11\\system.diagnostics.debug.4.0.11.nupkg.sha512",

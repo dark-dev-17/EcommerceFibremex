@@ -196,7 +196,10 @@ namespace DbManagerDark.Managers
 
             return columna;
         }
-
+        public List<T> GetSpecialStat(string SqlStatements)
+        {
+            return DataReader(SqlStatements);
+        }
         private List<T> DataReader(string SqlStatements)
         {
             DarkTable tableDefinifiton = GetClassAttribute();

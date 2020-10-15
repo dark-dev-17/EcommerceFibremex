@@ -66,7 +66,7 @@ namespace DbManagerDark.Managers
             DarkTable tableDefinifiton = GetClassAttribute();
             if (tableDefinifiton.IsView)
             {
-                throw new DarkExceptionSystem("El modelo fue declarado como vista, solo puede ser utilizado para lectura de datos");
+                throw new DarkExceptionSystem("El modelo " + Nametable + " fue declarado como vista, solo puede ser utilizado para lectura de datos");
             }
             if (tableDefinifiton.IsStoreProcedure)
             {

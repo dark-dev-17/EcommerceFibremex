@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbManagerDark.Exceptions;
+using EcommerceApiLogic.Catalogos;
+using EcommerceApiLogic.Diccionarios;
 using EcommerceApiLogic.Models;
 using EcommerceApiLogic.ModelsSap;
+using EcommerceApiLogic.Rules;
 using EcommerceApiLogic.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -29,7 +32,19 @@ namespace EcommerceFibremexApi2.Controllers
             darkDev.LoadObject(EcommerceApiLogic.SSQLObject.TipoCambio);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.OpenPayKeys);
         }
-
+        /// <summary>
+        /// Extraer lista de estados 
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Lista de estados</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public ActionResult<Pais> GetEstados()
+        {
+            return Ok(new Pais());
+        }
         // GET: api/<GeneralController>
         /// <summary>
         /// Extraer tipo de cambio del ecommerce
@@ -98,7 +113,6 @@ namespace EcommerceFibremexApi2.Controllers
         {
             try
             {
-
                 DateTime Hoy = DateTime.Now;
                 var Result = darkDev.OpenPayKeys.Get("1");
                 if (Result == null)
@@ -121,5 +135,36 @@ namespace EcommerceFibremexApi2.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene la lista de municipios del estado seleccionado
+        /// </summary>
+        /// <param name="Estado"></param>
+        /// <returns></returns>
+        /// <response code="200">Claves de OpenPay</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<Municipio> GetMunicipios(string Estado)
+        {
+            try
+            {
+                MunicipioCtrl municipioCtrl = new MunicipioCtrl();
+                return Ok(municipioCtrl.GetMunicipios(Estado));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+
+            }
+            
+        }
     }
 }

@@ -114,7 +114,7 @@ namespace EcommerceFibremexApi2.Controllers
         /// </summary>
         /// <param name="DireccionEnvio"></param>
         /// <returns></returns>
-        /// <response code="200">dirección encontrado</response>
+        /// <response code="200">dirección creada</response>
         /// <response code="400">Errores de sistema y errores de usuario</response>
         /// <response code="401">Sin autorizacion(token caducado)</response>
         [HttpPost]
@@ -127,6 +127,12 @@ namespace EcommerceFibremexApi2.Controllers
         {
             try
             {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
+
                 darkDev.DireccionEnvio.Element = DireccionEnvio;
                 darkDev.DireccionEnvio.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 if (darkDev.DireccionEnvio.Add())
@@ -158,7 +164,7 @@ namespace EcommerceFibremexApi2.Controllers
         /// </summary>
         /// <param name="DireccionEnvio"></param>
         /// <returns></returns>
-        /// <response code="200">dirección encontrado</response>
+        /// <response code="200">dirección actualizada</response>
         /// <response code="400">Errores de sistema y errores de usuario</response>
         /// <response code="401">Sin autorizacion(token caducado)</response>
         [HttpPost]
@@ -184,6 +190,7 @@ namespace EcommerceFibremexApi2.Controllers
                 }
 
                 darkDev.DireccionEnvio.Element = DireccionEnvio;
+                darkDev.DireccionEnvio.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 if (darkDev.DireccionEnvio.Update())
                 {
                     return Ok(new { error = false, message = "Dirección actualizada", data = DireccionEnvio });

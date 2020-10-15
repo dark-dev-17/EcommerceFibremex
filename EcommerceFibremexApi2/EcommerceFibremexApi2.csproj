@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConfigurableCode\ConfigurableCode.csproj" />
     <ProjectReference Include="..\EcommerceApiLogic\EcommerceApiLogic.csproj" />
   </ItemGroup>
   <PropertyGroup>

@@ -184,14 +184,17 @@ namespace EcommerceFibremexApi2
             
             //
             app.UseRouting();
+
+            // global cors policy
+            app.UseCors("AllowAllHeaders");
+            app.UseCors("SplittelPolicy");
+
             // autentication
             app.UseAuthentication();
             //
             app.UseAuthorization();
 
-            // global cors policy
-            app.UseCors("AllowAllHeaders");
-            app.UseCors("SplittelPolicy");
+            
 
             app.UseEndpoints(endpoints =>
             {

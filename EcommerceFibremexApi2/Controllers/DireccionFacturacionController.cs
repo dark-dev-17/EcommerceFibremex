@@ -128,6 +128,10 @@ namespace EcommerceFibremexApi2.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
                 darkDev.DireccionFacturacion.Element = DireccionFacturacion;
                 darkDev.DireccionFacturacion.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 if (darkDev.DireccionFacturacion.Add())
@@ -171,7 +175,12 @@ namespace EcommerceFibremexApi2.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
                 var Direccion_re = darkDev.DireccionFacturacion.Get(DireccionFacturacion.IdDireccionFacturacion);
+                darkDev.DireccionFacturacion.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 int idCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 if (Direccion_re == null)
                 {

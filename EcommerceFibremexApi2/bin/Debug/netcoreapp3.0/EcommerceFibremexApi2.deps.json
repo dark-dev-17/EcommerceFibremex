@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v3.0": {
       "EcommerceFibremexApi2/1.0.0": {
         "dependencies": {
+          "ConfigurableCode": "1.0.0",
           "EcommerceApiLogic": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "3.0.0",
           "Swashbuckle.AspNetCore": "5.0.0-rc4",
@@ -163,7 +164,6 @@
           "System.Collections.Immutable": "1.2.4.0",
           "System.Collections.NonGeneric": "4.1.1.0",
           "System.Collections.Specialized": "4.1.1.0",
-          "System.ComponentModel.Annotations": "4.3.0.0",
           "System.ComponentModel.DataAnnotations": "4.0.0.0",
           "System.ComponentModel": "4.0.3.0",
           "System.ComponentModel.EventBasedAsync": "4.1.1.0",
@@ -982,6 +982,17 @@
           "System.Threading.Tasks": "4.3.0"
         }
       },
+      "System.ComponentModel.Annotations/4.7.0": {
+        "runtime": {
+          "lib/netstandard2.1/System.ComponentModel.Annotations.dll": {
+            "assemblyVersion": "4.3.1.0",
+            "fileVersion": "4.700.19.56404"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.1/System.ComponentModel.Annotations.dll": {}
+        }
+      },
       "System.Configuration.ConfigurationManager/4.4.1": {
         "dependencies": {
           "System.Security.Cryptography.ProtectedData": "4.4.0"
@@ -1641,6 +1652,17 @@
           "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
+      "ConfigurableCode/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.1"
+        },
+        "runtime": {
+          "ConfigurableCode.dll": {}
+        },
+        "compile": {
+          "ConfigurableCode.dll": {}
+        }
+      },
       "DbManagerDark/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "2.1.1",
@@ -1661,6 +1683,7 @@
           "Microsoft.IdentityModel.Tokens": "6.7.1",
           "Newtonsoft.Json": "12.0.1",
           "Openpay": "1.0.0",
+          "System.ComponentModel.Annotations": "4.7.0",
           "System.IdentityModel.Tokens.Jwt": "6.7.1"
         },
         "runtime": {
@@ -2491,12 +2514,6 @@
       "System.Collections.Specialized/4.1.1.0": {
         "compile": {
           "System.Collections.Specialized.dll": {}
-        },
-        "compileOnly": true
-      },
-      "System.ComponentModel.Annotations/4.3.0.0": {
-        "compile": {
-          "System.ComponentModel.Annotations.dll": {}
         },
         "compileOnly": true
       },
@@ -3810,6 +3827,13 @@
       "path": "system.collections.concurrent/4.0.12",
       "hashPath": "system.collections.concurrent.4.0.12.nupkg.sha512"
     },
+    "System.ComponentModel.Annotations/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0YFqjhp/mYkDGpU0Ye1GjE53HMp9UVfGN7seGpAMttAC0C40v5gw598jCgpbBLMmCo0E5YRLBv5Z2doypO49ZQ==",
+      "path": "system.componentmodel.annotations/4.7.0",
+      "hashPath": "system.componentmodel.annotations.4.7.0.nupkg.sha512"
+    },
     "System.Configuration.ConfigurationManager/4.4.1": {
       "type": "package",
       "serviceable": true,
@@ -4229,6 +4253,11 @@
       "sha512": "sha512-Zm2BdeanuncYs3NhCj4c9e1x3EXFzFBVv2wPEc/Dj4ZbI9R8ecLSR5frAsx4zJCPBtKQreQ7Q/KxJEohJZbfzA==",
       "path": "system.xml.xpath.xmldocument/4.0.1",
       "hashPath": "system.xml.xpath.xmldocument.4.0.1.nupkg.sha512"
+    },
+    "ConfigurableCode/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "DbManagerDark/1.0.0": {
       "type": "project",
@@ -4921,11 +4950,6 @@
       "sha512": ""
     },
     "System.Collections.Specialized/4.1.1.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "System.ComponentModel.Annotations/4.3.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

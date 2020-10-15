@@ -99,6 +99,40 @@ namespace EcommerceFibremexApi2.Controllers
                 darkDev.CloseConnection();
             }
         }
+        /// <summary>
+        /// Obtiene el numero de partidas en el carrito
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">Pedido encontrado</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet("{id}")]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<int> CountItems(int id)
+        {
+            try
+            {
+                PedidoRule pedidoRule = new PedidoRule(darkDev, darkDev.tokenValidationAction.GetIdClienteToken(HttpContext));
+                return Ok(pedidoRule.GetPedido(id).DetallePedidos.Count);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema: " + ex.Message);
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error: " + ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+        }
 
         // POST api/<CarritoController>
         /// <summary>

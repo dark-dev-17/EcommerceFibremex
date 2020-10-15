@@ -259,7 +259,7 @@ namespace EcommerceApiLogic.Rules
             }
             DetalleResult.DetallePedidos = darkDev.DetallePedido.Get(
                          DetalleResult.IdPedido + "", darkDev.DetallePedido.ColumName(nameof(darkDev.DetallePedido.Element.IdPedido))
-                    );
+                    ).Where(a => a.Activo == "si").ToList();
             return DetalleResult;
         }
 

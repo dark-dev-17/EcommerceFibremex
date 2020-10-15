@@ -23,6 +23,9 @@ namespace EcommerceApiLogic.Models
         [DarkColumn(Name = "orden", IsMapped = true, IsKey = false)]
         public int Orden { get; set; }
 
+        [DarkColumn(Name = "id_imagen", IsMapped = true, IsKey = false)]
+        public string id_imagen { get; set; }
+
         [DarkColumn(Name = "orden", IsMapped = false, IsKey = false)]
         public List<SubCategoria> SubCategorias { get; set; }
 

@@ -23,6 +23,16 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.CarritoController.CountItems(System.Int32)">
+            <summary>
+            Obtiene el numero de partidas en el carrito
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Pedido encontrado</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.CarritoController.Agregar(EcommerceFibremexApi2.Models.NuevoArticulo)">
             <summary>
             Agregar nuevo articulo a carrito
@@ -118,7 +128,7 @@
             </summary>
             <param name="DireccionEnvio"></param>
             <returns></returns>
-            <response code="200">dirección encontrado</response>
+            <response code="200">dirección creada</response>
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
@@ -128,7 +138,7 @@
             </summary>
             <param name="DireccionEnvio"></param>
             <returns></returns>
-            <response code="200">dirección encontrado</response>
+            <response code="200">dirección actualizada</response>
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
@@ -171,6 +181,13 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.GeneralController.GetEstados">
+            <summary>
+            Extraer lista de estados 
+            </summary>
+            <returns></returns>
+            <response code="200">Lista de estados</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.GeneralController.GetTipoCambio(System.String)">
             <summary>
             Extraer tipo de cambio del ecommerce
@@ -187,6 +204,25 @@
             </summary>
             <returns></returns>
             <response code="200">Claves de OpenPay</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.GeneralController.GetMunicipios(System.String)">
+            <summary>
+            Obtiene la lista de municipios del estado seleccionado
+            </summary>
+            <param name="Estado"></param>
+            <returns></returns>
+            <response code="200">Claves de OpenPay</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.HomeController.Get">
+            <summary>
+            Lista de slides 
+            </summary>
+            <returns></returns>
+            <response code="200">Lista de slides</response>
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
