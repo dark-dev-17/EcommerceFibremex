@@ -15,12 +15,13 @@ namespace EcommerceApiLogic.Models
         public string ReferenciasPaqueteria { get; set; }
         public RequestB2B B2B { get; set; }
         public RequestB2C B2C { get; set; }
-
+        public string UsoCFDI { get;  set; }
+        public string ReferenciaDoc { get; set; }
     }
 
     public class RequestB2B
     {
-        public string ReferenciaDoc { get; set; }
+        
         public string ContactoNombre { get; set; }
         public string ContactoTelefono { get; set; }
         public string ContactoCorreo { get; set; }
@@ -28,6 +29,5 @@ namespace EcommerceApiLogic.Models
     public class RequestB2C
     {
         public bool RequiereFactura { get; set; }
-        public string ReferenciaDoc { get; set; }     
     }
 }

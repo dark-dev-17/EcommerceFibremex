@@ -521,12 +521,12 @@ namespace DbManagerDark.DbManager
         }
         public void CloseDataBaseAccess()
         {
-            if (SqlConnection.State == ConnectionState.Open)
+            if (SqlConnection != null && SqlConnection.State == ConnectionState.Open)
                 SqlConnection.Close();
         }
         private void CheckConnection()
         {
-            if (SqlConnection.State != ConnectionState.Open)
+            if (SqlConnection != null && SqlConnection.State != ConnectionState.Open)
             {
                 throw new DarkExceptionSystem("No database connection");
             }

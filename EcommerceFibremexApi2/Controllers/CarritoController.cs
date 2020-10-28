@@ -266,7 +266,7 @@ namespace EcommerceFibremexApi2.Controllers
             {
                 OpenPayRule OpenPayRule = new OpenPayRule(darkDev, darkDev.tokenValidationAction.GetIdClienteToken(HttpContext), requestPedido.IdPedido);
                 OpenPayRule.CheateChargeCard(requestPedido);
-                return Ok(new { IdPedido = requestPedido.IdPedido, Mensaje = "Producto eliminado", error = false });
+                return Ok(new { IdPedido = requestPedido.IdPedido, Mensaje = "Pedido pagado exitosamente!", error = false });
             }
             catch (DarkExceptionSystem ex)
             {

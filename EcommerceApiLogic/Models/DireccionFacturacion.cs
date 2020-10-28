@@ -1,4 +1,5 @@
 ﻿using DbManagerDark.Attributes;
+using EcommerceApiLogic.Catalogos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -65,5 +66,8 @@ namespace EcommerceApiLogic.Models
 
         [DarkColumn(Name = "activo", IsMapped = true, IsKey = false)]
         public string Activo { get; set; }
+
+        [DarkColumn(Name = "activo", IsMapped = false, IsKey = false)]
+        public string EstadoName { get { return new Pais().Estados.Find(a => a.Value == Estado) == null ? "--" : new Pais().Estados.Find(a => a.Value == Estado).Label; } }
     }
 }

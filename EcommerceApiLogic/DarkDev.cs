@@ -31,6 +31,8 @@ namespace EcommerceApiLogic
         public DarkManagerMySQL<SeguimientB2B> SeguimientB2B { get; set; }
         public DarkManagerMySQL<OpenPayLog> OpenPayLog { get; set; }
         public DarkSpecialMySQL<HomeSlide> HomeSlide { get; set; }
+        public DarkSpecialMSSQL<DireccionPedido> DireccionPedido { get; set; }
+        public DarkManagerMySQL<CFDI_Usos> CFDI_Usos { get; set; }
         #endregion
 
         #region Sap bussines one
@@ -130,6 +132,10 @@ namespace EcommerceApiLogic
             {
                 HomeSlide = new DarkSpecialMySQL<HomeSlide>(this.ConnectionMySQL);
             }
+            else if (mysqlObject == MysqlObject.CFDI_Usos)
+            {
+                CFDI_Usos = new DarkManagerMySQL<CFDI_Usos>(this.ConnectionMySQL);
+            }
         }
         public void LoadObject(SSQLObject sSQLObject)
         {
@@ -140,6 +146,10 @@ namespace EcommerceApiLogic
             if (sSQLObject == SSQLObject.SocioNegocio)
             {
                 SocioNegocio = new SocioNegocio(this.ConnectionSqlSever);
+            }
+            if (sSQLObject == SSQLObject.DireccionPedido)
+            {
+                DireccionPedido = new DarkSpecialMSSQL<DireccionPedido>(this.ConnectionSqlSever);
             }
         }
         #endregion
@@ -165,11 +175,13 @@ namespace EcommerceApiLogic
         SeguimientB2C = 16,
         OpenPayLog = 17,
         HomeSlide = 18,
+        CFDI_Usos = 19,
     }
 
     public enum SSQLObject
     {
         TipoCambio = 1,
         SocioNegocio = 2,
+        DireccionPedido = 3,
     }
 }

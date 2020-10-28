@@ -28,5 +28,8 @@ namespace EcommerceApiLogic.Models
 
         [DarkColumn(Name = "tipo_cliente", IsMapped = true, IsKey = false)]
         public string TipoCliente { get; set; }
+
+        [DarkColumn(Name = "cardcode", IsMapped = true, IsKey = false)]
+        public string CodigoCliente { get; set; }
     }
 }

@@ -121,7 +121,7 @@ namespace EcommerceApiLogic.Rules
                 darkDev.OpenPayLog.Add();
 
                 darkDev.CloseConnection();
-                throw new DarkExceptionUser(string.Format("Error al pagar el pedido E-commerce No. {0}", requestPedido.IdPedido));
+                throw new DarkExceptionUser(string.Format("Error al pagar el pedido E-commerce No. {0}, error: {1}", requestPedido.IdPedido, ex.Message));
             }
         }
 
@@ -143,6 +143,7 @@ namespace EcommerceApiLogic.Rules
                 Pedido_re.DatosFacturacion = requestPedido.DatosFacturacion;
                 Pedido_re.Paqueteria = requestPedido.ReferenciasPaqueteria;
                 Pedido_re.Estatus = "P";
+                Pedido_re.UsoCFDI = requestPedido.UsoCFDI;
                 darkDev.Pedido.Element = Pedido_re;
 
                 if (!darkDev.Pedido.Update())
@@ -160,7 +161,7 @@ namespace EcommerceApiLogic.Rules
                         EstatusPedido = 50,
                         Intentos = 1,
                         OpenPayReferencia = charge.Id,
-                        ReferenciaFactura = requestPedido.B2B.ReferenciaDoc,
+                        ReferenciaFactura = requestPedido.ReferenciaDoc,
                         ContactoNombre = requestPedido.B2B.ContactoNombre,
                         ContactoTelefono = requestPedido.B2B.ContactoTelefono,
                         ContactoCorreo = requestPedido.B2B.ContactoCorreo
@@ -186,7 +187,7 @@ namespace EcommerceApiLogic.Rules
                         OpenPayReferencia = charge.Id,
                         RequiereFactura = requestPedido.B2C.RequiereFactura ? "si" : "no",
                         Estatus = "50",
-                        ReferenciaFactura = requestPedido.B2C.ReferenciaDoc,
+                        ReferenciaFactura = requestPedido.ReferenciaDoc,
                         Intentos = 1
                     };
 

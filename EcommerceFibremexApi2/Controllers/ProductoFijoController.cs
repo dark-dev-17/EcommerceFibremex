@@ -26,6 +26,44 @@ namespace EcommerceFibremexApi2.Controllers
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ProductoFijo);
         }
+        /// <summary>
+        /// Obtiene los articulos fijos de acuerdo a la categoria seleccionada, y muestra el limite seleccionado en forma random
+        /// </summary>
+        /// <param name="Categoria">Categoria</param>
+        /// <param name="Limit">Número de productos a mostrar</param>
+        /// <returns></returns>
+        /// <response code="200">Lista de productos</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<IEnumerable<ProductoFijo>> GetRandomByCate(string Categoria, int Limit)
+        {
+            try
+            {
+                string where = string.Format("WHERE subcategoria='{0}' AND (codigo_configurable = '' OR codigo_configurable IS NULL ) ", Categoria);
+                string order = string.Format("ORDER BY RAND() LIMIT {0} ", Limit);
+                var Result = darkDev.ProductoFijo.GetOpenquery(where, order).Where(a => a.CodigoConfigurable == "" && a.ProductoActivo == "si");
+                return Ok(Result.OrderBy(a => a.Descripcion));
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest("Error usuario");
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+
+        }
 
         // GET: api/<ProductoFijoController>
         /// <summary>

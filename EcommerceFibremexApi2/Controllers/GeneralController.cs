@@ -31,6 +31,21 @@ namespace EcommerceFibremexApi2.Controllers
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.SSQLObject.TipoCambio);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.OpenPayKeys);
+            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.CFDI_Usos);
+        }
+
+        /// <summary>
+        /// Extraer lista de usos de CFDI
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Lista de CFDI</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public ActionResult<Pais> GetUsosCFDI()
+        {
+            return Ok(darkDev.CFDI_Usos.Get());
         }
         /// <summary>
         /// Extraer lista de estados 

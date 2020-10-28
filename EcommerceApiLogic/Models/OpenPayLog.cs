@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EcommerceApiLogic.Models
 {
-    [DarkTable(Name = "t16_open_pay_errores_log", IsMappedByLabels = true, IsStoreProcedure = false, IsView = true)]
+    [DarkTable(Name = "t16_open_pay_errores_log", IsMappedByLabels = true, IsStoreProcedure = false, IsView = false)]
     public class OpenPayLog
     {
         [DarkColumn(Name = "t16_pk01", IsMapped = true, IsKey = true)]

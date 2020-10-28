@@ -47,8 +47,8 @@ namespace EcommerceFibremexApi2.Controllers
             try
             {
                 var imagenes = darkDev.HomeSlide.GetSpecialStat(string.Format("call Ecom_HomeAnuncio_({0});", darkDev.tokenValidationAction.GetIdClienteToken(HttpContext)));
-                imagenes.ForEach(a => a.PathImg1 = string.Format(@"http://fibremex.com/fibra-optica/public/images/img_spl/slide/img1/{0}", a.PathImg1));
-                imagenes.ForEach(a => a.PathImg2 = string.Format(@"http://fibremex.com/fibra-optica/public/images/img_spl/slide/img2/{0}", a.PathImg2));
+                imagenes.ForEach(a => a.PathImg1 = string.Format(@"http://fibremex.co/fibra-optica/public/images/img_spl/slide/img1/{0}", a.PathImg1));
+                imagenes.ForEach(a => a.PathImg2 = string.Format(@"http://fibremex.co/fibra-optica/public/images/img_spl/slide/img2/{0}", a.PathImg2));
                 return Ok(imagenes);
             }
             catch (DarkExceptionSystem ex)

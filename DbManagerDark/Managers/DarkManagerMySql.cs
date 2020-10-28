@@ -179,6 +179,11 @@ namespace DbManagerDark.Managers
             return DataReader(string.Format("select * from {0}", Nametable));
         }
 
+        public List<T> GetOpenquery(string where, string Order)
+        {
+            return DataReader(string.Format("select * from {0} {1} {2}", Nametable, where, Order));
+        }
+
         private string KeyCol()
         {
             string columna = "";

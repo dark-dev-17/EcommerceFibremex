@@ -6,6 +6,7 @@ using DbManagerDark.Exceptions;
 using EcommerceApiLogic;
 using EcommerceApiLogic.Models;
 using EcommerceApiLogic.ModelsSap;
+using EcommerceApiLogic.Rules;
 using EcommerceApiLogic.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -20,14 +21,167 @@ namespace EcommerceFibremexApi2.Controllers
     [ApiController]
     public class DireccionFacturacionController : ControllerBase
     {
-        private EcommerceApiLogic.DarkDev darkDev;
+        private DireccionesCtrl DireccionesCtrl;
+
         public DireccionFacturacionController(IConfiguration configuration)
         {
-            darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ambos);
-            darkDev.OpenConnection();
-            darkDev.LoadObject(MysqlObject.DireccionFacturacion);
+            DireccionesCtrl = new DireccionesCtrl(configuration);
         }
 
+        #region Direcciones de factuacion B2B
+        /// <summary>
+        /// Obtiene direccion de facturacion seleccionada
+        /// </summary>
+        /// <param name="NombreDireccion">Direccion facturacion a mostrar</param>
+        /// <returns></returns>
+        /// <response code="200">Ultima dirección agregada</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet("{NombreDireccion}")]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<DireccionPedido> GetB2B(string NombreDireccion)
+        {
+            try
+            {
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                var Direccion_Re = DireccionesCtrl.GetB2B_fact(NombreDireccion);
+                if (Direccion_Re is null)
+                    return BadRequest("No tiene una dirección");
+                else
+                    return Ok(Direccion_Re);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                DireccionesCtrl.Finish();
+            }
+        }
+        /// <summary>
+        /// Obtiene listado de direcciones de facturacion del cliente en sesion (B2B)
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Ultima dirección agregada</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<IEnumerable<DireccionPedido>> GetB2B()
+        {
+            try
+            {
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                var Direccion_Re = DireccionesCtrl.GetB2B_dirFact();
+                if (Direccion_Re is null)
+                    return BadRequest("No tiene una dirección");
+                else
+                    return Ok(Direccion_Re);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                DireccionesCtrl.Finish();
+            }
+        }
+        /// <summary>
+        /// Obtiene direccion de facturación por default
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Ultima dirección agregada</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</respons
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<DireccionPedido> GetDefaultB2B()
+        {
+            try
+            {
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                var Direccion_Re = DireccionesCtrl.GetB2B_factDef();
+                if (Direccion_Re is null)
+                    return BadRequest("No tiene una dirección");
+                else
+                    return Ok(Direccion_Re);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                DireccionesCtrl.Finish();
+            }
+        }
+        #endregion
+
+        #region Direcciones de factuacion B2C
+        /// <summary>
+        /// Ultima dirección agregada
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Ultima dirección agregada</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<DireccionFacturacion> GetDefaultB2C()
+        {
+            try
+            {
+
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                var Direccion_Re = DireccionesCtrl.GetB2C_factDef();
+                if (Direccion_Re is null)
+                    return BadRequest("No tiene una dirección");
+                else
+                    return Ok(Direccion_Re);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest("Error sistema");
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                DireccionesCtrl.Finish();
+            }
+        }
         // GET: api/<DireccionFacturacionController>
         /// <summary>
         /// Listado de direcciones del cliente B2C en session(token)
@@ -47,8 +201,9 @@ namespace EcommerceFibremexApi2.Controllers
         {
             try
             {
-                int idCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
-                return Ok(darkDev.DireccionFacturacion.Get("" + idCliente, darkDev.DireccionFacturacion.ColumName(nameof(darkDev.DireccionFacturacion.Element.IdCliente))));
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                var Direccion_Re = DireccionesCtrl.GetB2C_dirFact();
+                return Ok(Direccion_Re);
             }
             catch (DarkExceptionSystem ex)
             {
@@ -56,11 +211,11 @@ namespace EcommerceFibremexApi2.Controllers
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest("Error: " + ex.Message);
+                return BadRequest(ex.Message);
             }
             finally
             {
-                darkDev.CloseConnection();
+                DireccionesCtrl.Finish();
             }
         }
 
@@ -81,19 +236,14 @@ namespace EcommerceFibremexApi2.Controllers
         [ProducesResponseType(400)]
         public ActionResult<DireccionFacturacion> GetB2C(int id)
         {
-
             try
             {
-                int idCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
-                var Direccion_re = darkDev.DireccionFacturacion.Get(id + "");
-                if (Direccion_re.IdCliente == idCliente)
-                {
-                    return Ok(Direccion_re);
-                }
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                var Direccion_Re = DireccionesCtrl.GetB2C_facturacion(id);
+                if (Direccion_Re is null)
+                    return BadRequest("No tiene una dirección");
                 else
-                {
-                    return BadRequest("Dirección no encontrada");
-                }
+                    return Ok(Direccion_Re);
             }
             catch (DarkExceptionSystem ex)
             {
@@ -101,17 +251,17 @@ namespace EcommerceFibremexApi2.Controllers
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest("Error: " + ex.Message);
+                return BadRequest(ex.Message);
             }
             finally
             {
-                darkDev.CloseConnection();
+                DireccionesCtrl.Finish();
             }
         }
 
         // POST api/<DireccionFacturacionController>
         /// <summary>
-        /// Listado de direcciones del cliente B2B en session(token)
+        /// Listado de direcciones del cliente B2C en session(token)
         /// </summary>
         /// <param name="DireccionFacturacion"></param>
         /// <returns></returns>
@@ -132,16 +282,10 @@ namespace EcommerceFibremexApi2.Controllers
                 {
                     return BadRequest(ModelState.Values);
                 }
-                darkDev.DireccionFacturacion.Element = DireccionFacturacion;
-                darkDev.DireccionFacturacion.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
-                if (darkDev.DireccionFacturacion.Add())
-                {
-                    return Ok(new { error = false, message = "Dirección agregada", data = DireccionFacturacion });
-                }
-                else
-                {
-                    return BadRequest("Dirección no guardada");
-                }
+
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                DireccionesCtrl.AddB2C_fact(DireccionFacturacion);
+                return Ok(new { error = false, message = "Dirección agregada", data = DireccionFacturacion });
             }
             catch (DarkExceptionSystem ex)
             {
@@ -149,16 +293,16 @@ namespace EcommerceFibremexApi2.Controllers
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest("Error: " + ex.Message);
+                return BadRequest(ex.Message);
             }
             finally
             {
-                darkDev.CloseConnection();
+                DireccionesCtrl.Finish();
             }
         }
 
         /// <summary>
-        /// Detalle de dirección del cliente B2B en session(token)
+        /// Detalle de dirección del cliente B2C en session(token)
         /// </summary>
         /// <param name="DireccionFacturacion"></param>
         /// <returns></returns>
@@ -171,7 +315,7 @@ namespace EcommerceFibremexApi2.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(400)]
-        public ActionResult EditB2B([FromBody] DireccionFacturacion DireccionFacturacion)
+        public ActionResult EditB2C([FromBody] DireccionFacturacion DireccionFacturacion)
         {
             try
             {
@@ -179,28 +323,9 @@ namespace EcommerceFibremexApi2.Controllers
                 {
                     return BadRequest(ModelState.Values);
                 }
-                var Direccion_re = darkDev.DireccionFacturacion.Get(DireccionFacturacion.IdDireccionFacturacion);
-                darkDev.DireccionFacturacion.Element.IdCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
-                int idCliente = darkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
-                if (Direccion_re == null)
-                {
-                    throw new DarkExceptionUser("La dirección requerida no fue encontrada");
-                }
-
-                if (Direccion_re.IdCliente != idCliente)
-                {
-                    throw new DarkExceptionUser("No puedes actualizar esta direccion");
-                }
-
-                darkDev.DireccionFacturacion.Element = DireccionFacturacion;
-                if (darkDev.DireccionFacturacion.Update())
-                {
-                    return Ok(new { error = false, message = "Dirección actualizada", data = DireccionFacturacion });
-                }
-                else
-                {
-                    return BadRequest("Dirección no actualizada");
-                }
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                DireccionesCtrl.UpdB2C_fact(DireccionFacturacion);
+                return Ok(new { error = false, message = "Dirección agregada", data = DireccionFacturacion });
             }
             catch (DarkExceptionSystem ex)
             {
@@ -208,13 +333,13 @@ namespace EcommerceFibremexApi2.Controllers
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest("Error: " + ex.Message);
+                return BadRequest(ex.Message);
             }
             finally
             {
-                darkDev.CloseConnection();
+                DireccionesCtrl.Finish();
             }
         }
-
+        #endregion
     }
 }
