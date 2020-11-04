@@ -1,0 +1,40 @@
+{
+  "Id": "1",
+  "Nombre": "JumperMonomodo",
+  "ExpresionRegular": "",
+  "CodeExample": "",
+  "Partes": [
+    {
+      "Id": "",
+      "Tipo": "",
+      "Descripcion": "",
+      "Mascara": {
+        "Id": "",
+        "Longitud": 0,
+        "UnidadMedida": "",
+        "Equivalencia": {
+          "Base": 1,
+          "Igualdad": 10
+        }
+      },
+      "Opciones": [
+        {
+          "Id": "",
+          "Clave": "",
+          "Descripcion": "",
+          "Posicion": ""
+        }
+      ],
+      "Restricciones": [
+        {
+          "Id": "",
+          "Detonantes": [ "" ],
+          "Operador": "",
+          "Accion": "",
+          "Valores": "",
+          "ParteAplicar": ""
+        }
+      ]
+    }
+  ]
+}

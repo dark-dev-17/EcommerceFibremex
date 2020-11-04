@@ -48,6 +48,20 @@ namespace EcommerceFibremexApi2.Controllers
             return Ok(darkDev.CFDI_Usos.Get());
         }
         /// <summary>
+        /// Informacion de contacto de la empresa
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Lista de CFDI</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public ActionResult<SplittelContacto> GetSplittelContact()
+        {
+            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.SplittelContacto);
+            return Ok(darkDev.SplittelContacto.Get(1));
+        }
+        /// <summary>
         /// Extraer lista de estados 
         /// </summary>
         /// <returns></returns>

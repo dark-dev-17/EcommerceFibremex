@@ -129,6 +129,15 @@ namespace DbManagerDark.Managers
             List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}' and  {3} = '{4}'", Nametable, Columna1, Columna1Val, Columna2, Columna1Val2));
             return Lista;
         }
+        public List<T> GetList(string Columna1, string Columna1Val, string Columna2, string Columna1Val2, string Columna3, string Columna1Val3)
+        {
+            List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}' and  {3} = '{4}' and  {5} = '{6}'", Nametable,
+                Columna1, Columna1Val,
+                Columna2, Columna1Val2,
+                Columna3, Columna1Val3
+                ));
+            return Lista;
+        }
         public T Get(string id)
         {
             List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}'", Nametable, KeyCol(), id));
@@ -152,6 +161,20 @@ namespace DbManagerDark.Managers
         public T Get(string Columna1, string Columna1Val, string Columna2, string Columna1Val2)
         {
             List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}' and  {3} = '{4}'", Nametable, Columna1, Columna1Val, Columna2, Columna1Val2));
+            if (Lista.Count == 0)
+            {
+                return default(T);
+            }
+            return Lista.ElementAt(0);
+        }
+
+        public T Get(string Columna1, string Columna1Val, string Columna2, string Columna1Val2, string Columna3, string Columna1Val3)
+        {
+            List<T> Lista = DataReader(string.Format("select * from {0} where {1} = '{2}' and  {3} = '{4}' and  {5} = '{6}'", Nametable,
+                Columna1, Columna1Val,
+                Columna2, Columna1Val2,
+                Columna3, Columna1Val3
+                ));
             if (Lista.Count == 0)
             {
                 return default(T);

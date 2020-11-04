@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcommerceFibremexApi", "EcommerceFibremexApi.csproj", "{D1B033E7-B9D5-4E64-B6DC-1932998A511B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbManagerDark", "..\DbManagerDark\DbManagerDark.csproj", "{21431576-74FB-46F3-BCF7-6404451C0DB5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcommerceApiLogic", "..\EcommerceApiLogic\EcommerceApiLogic.csproj", "{7464D282-907B-4F3D-98DA-844AC22C5878}"
@@ -13,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Openpay", "..\openpay-dotne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcommerceFibremexApi2", "..\EcommerceFibremexApi2\EcommerceFibremexApi2.csproj", "{3B99FFF2-3963-476F-9C18-08F0B9747E0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurableCode", "..\ConfigurableCode\ConfigurableCode.csproj", "{64C8EB18-9612-4A19-8746-7CAEC959AF16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurableCode", "..\ConfigurableCode\ConfigurableCode.csproj", "{64C8EB18-9612-4A19-8746-7CAEC959AF16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D1B033E7-B9D5-4E64-B6DC-1932998A511B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1B033E7-B9D5-4E64-B6DC-1932998A511B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1B033E7-B9D5-4E64-B6DC-1932998A511B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1B033E7-B9D5-4E64-B6DC-1932998A511B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{21431576-74FB-46F3-BCF7-6404451C0DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{21431576-74FB-46F3-BCF7-6404451C0DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21431576-74FB-46F3-BCF7-6404451C0DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU

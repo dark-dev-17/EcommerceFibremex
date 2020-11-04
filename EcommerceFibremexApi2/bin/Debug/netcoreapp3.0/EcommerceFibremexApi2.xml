@@ -190,7 +190,15 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:EcommerceFibremexApi2.Controllers.DireccionFacturacionController.GetDefaultB2B" -->
+        <member name="M:EcommerceFibremexApi2.Controllers.DireccionFacturacionController.GetDefaultB2B">
+            <summary>
+            Obtiene direccion de facturación por default
+            </summary>
+            <returns></returns>
+            <response code="200">Ultima dirección agregada</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.DireccionFacturacionController.GetDefaultB2C">
             <summary>
             Ultima dirección agregada
@@ -307,6 +315,24 @@
             <param name="id">Folio del pedido</param>
             <returns></returns>
             <response code="200">Pedido encontrado</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetB2C_pendientes">
+            <summary>
+            Obtiene lista de pedidos pendientes
+            </summary>
+            <returns></returns>
+            <response code="200">Pedidos encontrados</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetB2C_Terminados">
+            <summary>
+            Obtiene pedidos terminados 
+            </summary>
+            <returns></returns>
+            <response code="200">Pedidos encontrados</response>
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>

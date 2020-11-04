@@ -15,10 +15,10 @@ namespace EcommerceFibremexApi2.Controllers
     [ApiController]
     public class ConfiguradorController : ControllerBase
     {
-        private ConfigurableCode.Manager manager;
+        private ConfigurableCode.Controllers.MainV1Ctrl MainV1Ctrl;
         public ConfiguradorController()
         {
-            manager = new ConfigurableCode.Manager();
+            
         }
 
         #region General
@@ -26,29 +26,64 @@ namespace EcommerceFibremexApi2.Controllers
         [AllowAnonymous]
         public IActionResult CreateConfiguration(string Nombre)
         {
-            return Ok(manager.CreateNewConfiguracion(Nombre, Nombre));
+            try
+            {
+                MainV1Ctrl = new ConfigurableCode.Controllers.MainV1Ctrl(Nombre);
+                MainV1Ctrl.Create();
+                return Ok(MainV1Ctrl.Configurable);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult GetConfiguration(string Nombre)
+        public IActionResult OpenConfiguration(string Nombre)
         {
-            manager.LoadConfiguration(Nombre);
-            return Ok(manager.Configurable);
+            try
+            {
+                MainV1Ctrl = new ConfigurableCode.Controllers.MainV1Ctrl(Nombre);
+                MainV1Ctrl.Open();
+                return Ok(MainV1Ctrl.Configurable);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
         #endregion
 
         #region Elemento
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult AddElement(string Nombre, string DescripcionElemento)
+        public IActionResult CreateParte([FromBody] Re_ConfParteAdd re_ConfParteAdd)
         {
             try
             {
-                manager.LoadConfiguration(Nombre);
-                manager.AddElement(DescripcionElemento);
-                manager.SaveChanges(Nombre);
-                return Ok(manager.Configurable);
+                MainV1Ctrl = new ConfigurableCode.Controllers.MainV1Ctrl(re_ConfParteAdd.NameFile);
+                MainV1Ctrl.Open();
+                MainV1Ctrl.PartesCrl.Add(re_ConfParteAdd.Tipo, re_ConfParteAdd.Descripcion);
+                MainV1Ctrl.Save();
+                return Ok(MainV1Ctrl.Configurable);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult IpdateParte([FromBody] Re_ConfParteUpd re_ConfParteAdd)
+        {
+            try
+            {
+                MainV1Ctrl = new ConfigurableCode.Controllers.MainV1Ctrl(re_ConfParteAdd.NameFile);
+                MainV1Ctrl.Open();
+                MainV1Ctrl.PartesCrl.Update(re_ConfParteAdd.Id, re_ConfParteAdd.Tipo, re_ConfParteAdd.Descripcion);
+                MainV1Ctrl.Save();
+                return Ok(MainV1Ctrl.Configurable);
             }
             catch (Exception ex)
             {
@@ -60,14 +95,15 @@ namespace EcommerceFibremexApi2.Controllers
         #region Valores
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult AddElementValor([FromBody] ElementoValor elementoValor)
+        public IActionResult CreateOpcion(int Id, string clave, string Title, string NameFile)
         {
             try
             {
-                manager.LoadConfiguration(elementoValor.Nombre);
-                manager.AddValor(elementoValor.IdElement, elementoValor.IdValor, elementoValor.Descripcion);
-                manager.SaveChanges(elementoValor.Nombre);
-                return Ok(manager.Configurable);
+                MainV1Ctrl = new ConfigurableCode.Controllers.MainV1Ctrl(NameFile);
+                MainV1Ctrl.Open();
+                MainV1Ctrl.OpcionesCtrl.AddOpcion(Id, clave, Title);
+                MainV1Ctrl.Save();
+                return Ok(MainV1Ctrl.Configurable);
             }
             catch (Exception ex)
             {

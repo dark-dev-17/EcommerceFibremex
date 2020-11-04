@@ -6,22 +6,52 @@ namespace ConfigurableCode.Models
 {
     public class Configurable
     {
-        public int IdConfigurable { get; set; }
+        public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Descripción { get; set; }
         public string ExpresionRegular { get; set; }
-        public string CodigoBase { get; set; }
-        public List<Elemento> Elementos { get; set; }
+        public string CodeExample { get; set; }
+        public List<Parte> Partes { get; set; }
     }
-    public enum TipoRegla
+
+    public class Parte
     {
-        Activar = 1,
-        DesActivar = 1,
+        public int Id { get; set; }
+        public string Tipo { get; set; }
+        public string Descripcion { get; set; }
+        public Mascara Mascara { get; set; }
+        public List<Opcion> Opciones { get; set; }
+        public List<Restriccion> Restricciones { get; set; }
     }
-    public enum TipoElemento
+
+    public class Mascara
     {
-        ParteFija = 1,
-        ParteOpcional = 2,
-        ParteRangoMask = 3
+        public int Id { get; set; }
+        public int Longitud { get; set; }
+        public string UnidadMedida { get; set; }
+        public Equivalencia Equivalencia { get; set; }
+    }
+
+    public class Equivalencia
+    {
+        public int Base { get; set; }
+        public int Igualdad { get; set; }
+    }
+
+    public class Opcion
+    {
+        public int Id { get; set; }
+        public string Clave { get; set; }
+        public string Descripcion { get; set; }
+        public int Posicion { get; set; }
+    }
+
+    public class Restriccion
+    {
+        public int Id { get; set; }
+        public List<string> Detonantes { get; set; }
+        public string Operador { get; set; }
+        public string Accion { get; set; }
+        public List<string> Valores { get; set; }
+        public int ParteAplicar { get; set; }
     }
 }

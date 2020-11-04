@@ -33,6 +33,9 @@ namespace EcommerceApiLogic
         public DarkSpecialMySQL<HomeSlide> HomeSlide { get; set; }
         public DarkSpecialMSSQL<DireccionPedido> DireccionPedido { get; set; }
         public DarkManagerMySQL<CFDI_Usos> CFDI_Usos { get; set; }
+        public DarkManagerMySQL<ViewPedidoB2C_> ViewPedidoB2C_ { get; set; }
+        public DarkManagerMySQL<LogErrorsOpenPay> LogErrorsOpenPay { get; set; }
+        public DarkManagerMySQL<SplittelContacto> SplittelContacto { get; set; }
         #endregion
 
         #region Sap bussines one
@@ -136,6 +139,18 @@ namespace EcommerceApiLogic
             {
                 CFDI_Usos = new DarkManagerMySQL<CFDI_Usos>(this.ConnectionMySQL);
             }
+            else if (mysqlObject == MysqlObject.ViewPedidoB2C_)
+            {
+                ViewPedidoB2C_ = new DarkManagerMySQL<ViewPedidoB2C_>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.LogErrorsOpenPay)
+            {
+                LogErrorsOpenPay = new DarkManagerMySQL<LogErrorsOpenPay>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.SplittelContacto)
+            {
+                SplittelContacto = new DarkManagerMySQL<SplittelContacto>(this.ConnectionMySQL);
+            }
         }
         public void LoadObject(SSQLObject sSQLObject)
         {
@@ -176,6 +191,9 @@ namespace EcommerceApiLogic
         OpenPayLog = 17,
         HomeSlide = 18,
         CFDI_Usos = 19,
+        ViewPedidoB2C_ = 20,
+        LogErrorsOpenPay = 21,
+        SplittelContacto = 22,
     }
 
     public enum SSQLObject

@@ -110,7 +110,7 @@ namespace EcommerceFibremexApi2.Controllers
         /// <returns></returns>
         /// <response code="200">Ultima dirección agregada</response>
         /// <response code="400">Errores de sistema y errores de usuario</response>
-        /// <response code="401">Sin autorizacion(token caducado)</respons
+        /// <response code="401">Sin autorizacion(token caducado)</response>
         [HttpGet]
         [Authorize]
         [Produces("application/json")]

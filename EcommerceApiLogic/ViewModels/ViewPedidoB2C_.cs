@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcommerceApiLogic.Models
+namespace EcommerceApiLogic.ViewModels
 {
-    [DarkTable(Name = "listar_pedido_b2c", IsMappedByLabels = true, IsStoreProcedure = false, IsView = true)]
-    public class PedidoB2C
+    [DarkTable(Name = "listar_pedido_b2c_", IsMappedByLabels = true, IsStoreProcedure = false, IsView = true)]
+    public class ViewPedidoB2C_
     {
         /// <summary>
         /// Id o folio del pedido
@@ -117,25 +117,5 @@ namespace EcommerceApiLogic.Models
         [DarkColumn(Name = "t05_f013", IsMapped = true, IsKey = false)]
         public int t05_f013 { get; set; }
 
-        [DarkColumn(Name = "t12_pk01", IsMapped = true, IsKey = false)]
-        public int IdWebHook { get; set; }
-
-        [DarkColumn(Name = "t12_f001", IsMapped = true, IsKey = false)]
-        public string WHTitulo { get; set; }
-
-        [DarkColumn(Name = "t12_f002", IsMapped = true, IsKey = false)]
-        public int WHNumeroPedido { get; set; }
-
-        [DarkColumn(Name = "t12_f004", IsMapped = true, IsKey = false)]
-        public string WHEstatus { get; set; }
-
-        [DarkColumn(Name = "t12_f005", IsMapped = true, IsKey = false)]
-        public string WHResponseData { get; set; }
-
-        [DarkColumn(Name = "t12_f006", IsMapped = true, IsKey = false)]
-        public string OpenPayMetodoPago { get; set; }
-
-        [DarkColumn(Name = "detalle", IsMapped = false, IsKey = false)]
-        public List<ViewDetallePedido> Detalle { get; set; }
     }
 }

@@ -29,4 +29,5 @@ namespace EcommerceApiLogic.Models
         [DarkColumn(Name = "sociedad", IsMapped = true, IsKey = false)]
         public string Sociedad { get; set; }
     }
+    
 }
