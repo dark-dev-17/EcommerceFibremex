@@ -36,6 +36,10 @@ namespace EcommerceApiLogic
         public DarkManagerMySQL<ViewPedidoB2C_> ViewPedidoB2C_ { get; set; }
         public DarkManagerMySQL<LogErrorsOpenPay> LogErrorsOpenPay { get; set; }
         public DarkManagerMySQL<SplittelContacto> SplittelContacto { get; set; }
+        public DarkManagerMySQL<ViewCategorias> ViewCategorias { get; set; }
+        public DarkManagerMySQL<ProductoComent> ProductoComent { get; set; }
+        public DarkSpecialMySQL<ProductoComentProm> ProductoComentProm { get; set; }
+        public DarkManagerMySQL<Configu_nombre> Configu_nombre { get; set; }
         #endregion
 
         #region Sap bussines one
@@ -46,17 +50,29 @@ namespace EcommerceApiLogic
         #region Propiedades extras
         public TokenValidationAction tokenValidationAction;
         public FtpFiles FtpFiles;
+        /// <summary>
+        /// Url de servicios web de Grupo Splittel
+        /// </summary>
+        public string EndPointWs { get; internal set; }
         #endregion
 
         #region Constructores
         public DarkDev(IConfiguration configuration, DarkMode darkMode) : base(configuration, darkMode)
         {
             tokenValidationAction = new TokenValidationAction(configuration);
-            FtpFiles = new FtpFiles(
-                configuration.GetSection("Ftp").GetSection("Server").Value, 
-                configuration.GetSection("Ftp").GetSection("User").Value, 
-                configuration.GetSection("Ftp").GetSection("Password").Value
-            );
+
+            bool ModeProduction = configuration.GetSection("ModeProduction").Value == "true" ? true : false;
+            string FTPS = ModeProduction ? "Ftp" : "FtpTest";
+            string FtpServer = configuration.GetSection(FTPS).GetSection("server").Value;
+            string FtpUser = configuration.GetSection(FTPS).GetSection("User").Value;
+            string FtpPassword = configuration.GetSection(FTPS).GetSection("Password").Value;
+            string FtpDomain = configuration.GetSection(FTPS).GetSection("Domain").Value;
+            string FtpSiterute = configuration.GetSection(FTPS).GetSection("Siterute").Value;
+            string FtpSitebase = configuration.GetSection(FTPS).GetSection("Sitebase").Value;
+            string EndPointWs = configuration.GetSection($"WsSplittel{(ModeProduction ? "Test":"")}").Value;
+
+            FtpFiles = new FtpFiles(FtpServer, FtpUser, FtpPassword, FtpDomain, FtpSiterute, FtpSitebase);
+            
         }
         #endregion
 
@@ -151,6 +167,22 @@ namespace EcommerceApiLogic
             {
                 SplittelContacto = new DarkManagerMySQL<SplittelContacto>(this.ConnectionMySQL);
             }
+            else if (mysqlObject == MysqlObject.ViewCategorias)
+            {
+                ViewCategorias = new DarkManagerMySQL<ViewCategorias>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.ProductoComent)
+            {
+                ProductoComent = new DarkManagerMySQL<ProductoComent>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.ProductoComentProm)
+            {
+                ProductoComentProm = new DarkSpecialMySQL<ProductoComentProm>(this.ConnectionMySQL);
+            }
+            else if (mysqlObject == MysqlObject.Configu_nombre)
+            {
+                Configu_nombre = new DarkManagerMySQL<Configu_nombre>(this.ConnectionMySQL);
+            }
         }
         public void LoadObject(SSQLObject sSQLObject)
         {
@@ -194,6 +226,10 @@ namespace EcommerceApiLogic
         ViewPedidoB2C_ = 20,
         LogErrorsOpenPay = 21,
         SplittelContacto = 22,
+        ViewCategorias = 23,
+        ProductoComent = 24,
+        ProductoComentProm = 25,
+        Configu_nombre = 26,
     }
 
     public enum SSQLObject

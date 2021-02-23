@@ -16,7 +16,7 @@ namespace EcommerceApiLogic.Models
         public string Ubicacion { get; set; }
 
         [DarkColumn(Name = "telefono", IsMapped = true, IsKey = false)]
-        public string Telfono { get; set; }
+        public string Telefono { get; set; }
 
         [DarkColumn(Name = "email", IsMapped = true, IsKey = false)]
         public string Email { get; set; }
@@ -33,7 +33,5 @@ namespace EcommerceApiLogic.Models
         [DarkColumn(Name = "telefono1", IsMapped = true, IsKey = false)]
         public string Telefono1 { get; set; }
 
-        [DarkColumn(Name = "webservice", IsMapped = true, IsKey = false)]
-        public string WebService { get; set; }
     }
 }

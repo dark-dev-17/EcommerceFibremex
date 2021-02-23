@@ -30,7 +30,13 @@ namespace EcommerceApiLogic.Rules
             Cliente = darkDev.Cliente.Get(IdCliente);
             SocioNegocio = darkDev.SocioNegocio.Get(Cliente.CodigoCliente);
         }
-
+        /// <summary>
+        /// Agregar a carrito, creando nuevo carrito
+        /// </summary>
+        /// <param name="idPedido"></param>
+        /// <param name="CodigoProducto"></param>
+        /// <param name="cantidad"></param>
+        /// <returns></returns>
         public int AddCarrito(int idPedido, string CodigoProducto, int cantidad)
         {
             try
@@ -93,7 +99,11 @@ namespace EcommerceApiLogic.Rules
             }
 
         }
-
+        /// <summary>
+        /// Crear nueva cotizacione
+        /// </summary>
+        /// <param name="TipoCambio"></param>
+        /// <returns></returns>
         private int AddNuevaCotizacion(float TipoCambio)
         {
             darkDev.Pedido.Element = new Pedido();
@@ -139,7 +149,12 @@ namespace EcommerceApiLogic.Rules
 
             return darkDev.Pedido.GetLastId(darkDev.Pedido.ColumName(nameof(darkDev.Pedido.Element.IdCliente)), Cliente.IdCliente + "");
         }
-
+        /// <summary>
+        /// Agregar nuevo producto a carrito
+        /// </summary>
+        /// <param name="ProductoCode"></param>
+        /// <param name="cantidad"></param>
+        /// <param name="IdPedido"></param>
         private void AddNewLine(string ProductoCode,  int cantidad, int IdPedido)
         {
             var Art_result = darkDev.ProductoFijo.Get(ProductoCode);
@@ -212,7 +227,10 @@ namespace EcommerceApiLogic.Rules
                 }
             }
         }
-
+        /// <summary>
+        /// Actualizar carrito
+        /// </summary>
+        /// <param name="IdPedido"></param>
         private void UpdateCarrito(int IdPedido)
         {
             var Carrito_re = darkDev.Pedido.Get(IdPedido);
@@ -236,7 +254,11 @@ namespace EcommerceApiLogic.Rules
             }
 
         }
-
+        /// <summary>
+        /// Listar pedidos
+        /// </summary>
+        /// <param name="tipo"></param>
+        /// <returns></returns>
         public List<Pedido> GetPedidos(string tipo)
         {
             var TC_result = darkDev.Pedido.GetList(
@@ -246,7 +268,11 @@ namespace EcommerceApiLogic.Rules
 
             return TC_result.OrderByDescending(a => a.Fecha).ToList();
         }
-
+        /// <summary>
+        /// Obtener pedido
+        /// </summary>
+        /// <param name="IdPedido"></param>
+        /// <returns></returns>
         public Pedido GetPedido(int IdPedido)
         {
             var DetalleResult = darkDev.Pedido.Get(
@@ -262,7 +288,11 @@ namespace EcommerceApiLogic.Rules
                     ).Where(a => a.Activo == "si").ToList();
             return DetalleResult;
         }
-
+        /// <summary>
+        /// elimar producto del carrito seleccionado
+        /// </summary>
+        /// <param name="ProductoCode"></param>
+        /// <param name="IdPedido"></param>
         public void EliminarProducto(string ProductoCode, int IdPedido)
         {
             try
@@ -313,7 +343,12 @@ namespace EcommerceApiLogic.Rules
                 darkDev.CloseConnection();
             }
         }
-
+        /// <summary>
+        /// cambiar cantidad de carrito
+        /// </summary>
+        /// <param name="ProductoCode">Codigo del producto</param>
+        /// <param name="cantidad">Nueva cantidad</param>
+        /// <param name="IdPedido">Numero de pedido e-commerce</param>
         public void CambiarCantidad(string ProductoCode, int cantidad, int IdPedido)
         {
             try

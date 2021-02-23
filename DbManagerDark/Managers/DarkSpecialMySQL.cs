@@ -3,6 +3,7 @@ using DbManagerDark.DbManager;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -14,6 +15,15 @@ namespace DbManagerDark.Managers
         public DarkSpecialMySQL(DarkConnectionMySQL dBConnection)
         {
             this.dBConnection = dBConnection;
+        }
+        public T GetUnicSpecialStat(string SqlStatements)
+        {
+            var Lista = DataReader(SqlStatements);
+            if (Lista.Count == 0)
+            {
+                return default(T);
+            }
+            return Lista.ElementAt(0);
         }
         public List<T> GetSpecialStat(string SqlStatements)
         {

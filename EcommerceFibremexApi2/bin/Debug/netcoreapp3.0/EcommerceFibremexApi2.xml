@@ -74,6 +74,25 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.CategoriaController.ListView">
+            <summary>
+            returns view listar_categorias
+            </summary>
+            <returns></returns>
+            <response code="200">Detalle de pedido encontrado</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.CategoriaController.GetByCodigo(System.String)">
+            <summary>
+            Obtiene una cateogira por codio
+            </summary>
+            <param name="Codigo">Id de la categoria</param>
+            <returns></returns>
+            <response code="200">Respuesta exitosa</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.CategoriaController.Get">
             <summary>
             Listado de categorias
@@ -93,6 +112,16 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.ConfigurableController.CrearNombre(EcommerceApiLogic.Resquest.ConfNombre)">
+            <summary>
+            agregar nombre y descripcion a configurable seleccionado
+            </summary>
+            <param name="ConfNombre"></param>
+            <returns></returns>
+            <response code="200">Proceso completo</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.DetallePedidoController.Get(System.Int32)">
             <summary>
             Obtener partidas del pedido o cotización seleccionada
@@ -100,6 +129,26 @@
             <param name="id">Folio del pedido</param>
             <returns></returns>
             <response code="200">Detalle de pedido encontrado</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.DireccionEnvioController.UpdDireccion(EcommerceApiLogic.Resquest.DireccionEnvFac)">
+            <summary>
+            Editar direccion de envio o facturacion para clientes B2B tipo de direccion  = "B" - facturacion ó "S" envio
+            </summary>
+            <param name="DireccionEnvFac">datos de la direccion</param>
+            <returns></returns>
+            <response code="200">Proceso completo</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.DireccionEnvioController.AddDireccion(EcommerceApiLogic.Resquest.DireccionEnvFac)">
+            <summary>
+             Agregar direccion de envio o facturacion para clientes B2B tipo de direccion  = "B" - facturacion ó "S" envio
+            </summary>
+            <param name="DireccionEnvFac">datos de la direccion</param>
+            <returns></returns>
+            <response code="200">Proceso completo</response>
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
@@ -122,7 +171,15 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:EcommerceFibremexApi2.Controllers.DireccionEnvioController.GetDefaultB2B" -->
+        <member name="M:EcommerceFibremexApi2.Controllers.DireccionEnvioController.GetDefaultB2B">
+            <summary>
+            Obtiene direccion de envio por default
+            </summary>
+            <returns></returns>
+            <response code="200">Ultima dirección agregada</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.DireccionEnvioController.GetDefaultB2C">
             <summary>
             Ultima dirección agregada
@@ -254,6 +311,13 @@
             <returns></returns>
             <response code="200">Lista de CFDI</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.GeneralController.GetSplittelContact">
+            <summary>
+            Informacion de contacto de la empresa
+            </summary>
+            <returns></returns>
+            <response code="200">Lista de CFDI</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.GeneralController.GetEstados">
             <summary>
             Extraer lista de estados 
@@ -318,6 +382,22 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetLogOpenPay(System.Int32)">
+            <summary>
+            obtener logs open pay 
+            </summary>
+            <param name="IdCotizacion">Folio ecomerce</param>
+            <returns></returns>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetB2C_Cotizaciones">
+            <summary>
+            Obtiene lista de cotizaciones
+            </summary>
+            <returns></returns>
+            <response code="200">cotizaciones encontrados</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetB2C_pendientes">
             <summary>
             Obtiene lista de pedidos pendientes
@@ -374,6 +454,63 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetEnProceso">
+            <summary>
+            Obtener pedidos en proceso
+            </summary>
+            <returns></returns>
+            <response code="200">Proceso completo</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetRechazados">
+            <summary>
+            Obtener pedidos rechadados
+            </summary>
+            <returns></returns>
+            <response code="200">Proceso completo</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PedidoController.GetHistorico">
+            <summary>
+            obtener historico de pedidos
+            </summary>
+            <returns></returns>
+            <response code="200">Proceso completo</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.PrecioConfController.PigtailCal(EcommerceApiLogic.Resquest.PigtailPrecioCal)">
+            <summary>
+            Calcular precio pigtail
+            </summary>
+            <param name="pigtailPrecioCal"></param>
+            <returns></returns>
+            <response code="200">Proceso completo</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.ProductoComentController.GetComentarios(System.String)">
+            <summary>
+            Listar comentarios del producto seleccionado
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Pedido encontrado</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.ProductoComentController.GetPromedioProd(System.String)">
+            <summary>
+            promedio de comentarios por producto
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Pedido encontrado</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.ProductoFijoController.GetRandomByCate(System.String,System.Int32)">
             <summary>
             Obtiene los articulos fijos de acuerdo a la categoria seleccionada, y muestra el limite seleccionado en forma random
@@ -414,9 +551,30 @@
             <response code="400">Errores de sistema y errores de usuario</response>
             <response code="401">Sin autorizacion(token caducado)</response>
         </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.ProductoFijoController.GetFiles(System.String,EcommerceApiLogic.Enums.ProductoTipoFile)">
+            <summary>
+            Obtener archivos del producto seleccionado
+            </summary>
+            <param name="Codigo"></param>
+            <param name="Tipo">0.- Producto, 2.- Descripcion, 3.- InfoAdicional, 4.- Miniatura</param>
+            <returns></returns>
+            <response code="200">Detalle del producto</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
         <member name="M:EcommerceFibremexApi2.Controllers.ProductoFijoController.Get(System.String)">
             <summary>
             Detalle del producto seleccionado, imagenes
+            </summary>
+            <param name="id">Codigo del articulo</param>
+            <returns></returns>
+            <response code="200">Detalle del producto</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Sin autorizacion(token caducado)</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.ProductoFijoController.GetInList(System.String)">
+            <summary>
+            Obtener artiulo en lista
             </summary>
             <param name="id">Codigo del articulo</param>
             <returns></returns>
@@ -444,11 +602,21 @@
             <param name="id">Id de la familia</param>
             <returns></returns>
         </member>
-        <member name="M:EcommerceFibremexApi2.Controllers.UsuarioController.Login(EcommerceFibremexApi2.Models.Login)">
+        <member name="M:EcommerceFibremexApi2.Controllers.UsuarioController.Login(EcommerceApiLogic.Resquest.Login)">
             <summary>
             Iniciar sesión para aceder a los diferentes metodos
             </summary>
             <param name="Login"></param>
+            <returns></returns>
+            <response code="200">Credenciales correctas</response>
+            <response code="400">Errores de sistema y errores de usuario</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:EcommerceFibremexApi2.Controllers.UsuarioController.RegisterNewB2C(EcommerceApiLogic.Resquest.RegisterB2C)">
+            <summary>
+            register new usuario B2C
+            </summary>
+            <param name="registerB2C"></param>
             <returns></returns>
             <response code="200">Credenciales correctas</response>
             <response code="400">Errores de sistema y errores de usuario</response>

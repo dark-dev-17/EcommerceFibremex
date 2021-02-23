@@ -15,6 +15,7 @@ namespace DbManagerDark.DbManager
         private MySqlConnection SqlConnection;
         private MySqlCommand Command;
         public string mensaje;
+        public string RESULT;
         public int ErrorCode;
         public bool IsTracsactionActive = false;
         private MySqlTransaction tran;
@@ -54,7 +55,7 @@ namespace DbManagerDark.DbManager
             tran.Rollback();
             CloseDataBaseAccess();
         }
-        public void StartInsert(string statement, List<ProcedureModel> DataModel)
+        public void StartInsert(string statement, List<ProcedureModel> DataModel, bool ForceNUlls = false)
         {
             string Evaluando = "";
             try
@@ -80,7 +81,7 @@ namespace DbManagerDark.DbManager
                     {
                         if (typeof(int) == param.value.GetType())
                         {
-                            if ((int)param.value == 0)
+                            if ((int)param.value == 0 && !ForceNUlls)
                             {
                                 MySqlParameter sqlParameter = new MySqlParameter("@" + param.Namefield, DBNull.Value);
                                 sqlParameter.Direction = ParameterDirection.Input;
@@ -269,7 +270,14 @@ namespace DbManagerDark.DbManager
         }
         public void StartProcedure(string ProcedureName, List<ProcedureModel> DataModel)
         {
-            Command = new MySqlCommand(ProcedureName, SqlConnection);
+            if (IsTracsactionActive)
+            {
+                Command = new MySqlCommand(ProcedureName, SqlConnection, tran);
+            }
+            else
+            {
+                Command = new MySqlCommand(ProcedureName, SqlConnection);
+            }
             Command.CommandType = CommandType.StoredProcedure;
 
             if (DataModel == null)
@@ -292,6 +300,45 @@ namespace DbManagerDark.DbManager
 
                 ErrorCode = (int)Command.Parameters["@MessageCode"].Value;
                 mensaje = (string)Command.Parameters["@MessageValue"].Value;
+            }
+            catch (MySqlException ex)
+            {
+                throw new DarkExceptionSystem(string.Format("SqlException - {0}", ex.Message));
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                throw new DarkExceptionSystem(string.Format("SAP_Excepcion - {0}", ex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new DarkExceptionSystem(string.Format("Exception - {0}", ex.Message));
+            }
+
+
+        }
+        public void SimpleProcedure(string ProcedureName, List<ProcedureModel> DataModel)
+        {
+            Command = new MySqlCommand(ProcedureName, SqlConnection);
+            Command.CommandType = CommandType.StoredProcedure;
+
+            if (DataModel == null)
+            {
+                throw new DarkExceptionSystem("Sin parametros SP");
+            }
+            try
+            {
+                DataModel.ForEach(param => {
+                    MySqlParameter sqlParameter = new MySqlParameter("@" + param.Namefield, param.value);
+                    sqlParameter.Direction = ParameterDirection.Input;
+                    Command.Parameters.Add(sqlParameter);
+                });
+
+
+                var MessageValue = Command.Parameters.Add("@RESULT", MySqlDbType.VarChar, 200);
+                MessageValue.Direction = ParameterDirection.Output;
+                Command.ExecuteNonQuery();
+
+                RESULT = (string)Command.Parameters["@RESULT"].Value;
             }
             catch (MySqlException ex)
             {

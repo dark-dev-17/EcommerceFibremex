@@ -110,6 +110,20 @@ namespace EcommerceFibremexApi2.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost]
+        [Authorize]
+        public IActionResult GetJson(string NameFile)
+        {
+            try
+            {
+                var man = new Manager().GetSon(NameFile);
+                return Ok(man);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
     }
 }

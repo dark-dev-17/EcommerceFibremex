@@ -31,5 +31,7 @@ namespace EcommerceApiLogic.Models
 
         [DarkColumn(Name = "cardcode", IsMapped = true, IsKey = false)]
         public string CodigoCliente { get; set; }
+        [DarkColumn(Name = "pass_b2b", IsMapped = true, IsKey = false)]
+        public string PasswordB2B { get; set; }
     }
 }

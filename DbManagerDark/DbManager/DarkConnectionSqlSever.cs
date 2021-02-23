@@ -15,6 +15,7 @@ namespace DbManagerDark.DbManager
         private SqlConnection SqlConnection;
         private SqlCommand Command;
         public string mensaje;
+        public string RESULT;
         public int ErrorCode;
         public bool IsTracsactionActive = false;
         private SqlTransaction tran;
@@ -251,6 +252,44 @@ namespace DbManagerDark.DbManager
             {
                 throw new DarkExceptionSystem(string.Format("SqlException - {0}", ex.Message));
             }
+        }
+        public void SimpleProcedure(string ProcedureName, List<ProcedureModel> DataModel)
+        {
+            if (IsTracsactionActive)
+            {
+                Command = new SqlCommand(ProcedureName, SqlConnection, tran);
+            }
+            else
+            {
+                Command = new SqlCommand(ProcedureName, SqlConnection);
+            }
+            Command.CommandType = CommandType.StoredProcedure;
+
+            if (DataModel == null)
+            {
+                throw new DarkExceptionSystem("Sin parametros SP");
+            }
+            try
+            {
+                DataModel.ForEach(param => {
+                    SqlParameter sqlParameter = new SqlParameter("@" + param.Namefield, param.value);
+                    sqlParameter.Direction = ParameterDirection.Input;
+                    Command.Parameters.Add(sqlParameter);
+                });
+
+                
+                var MessageValue = Command.Parameters.Add("@RESULT", SqlDbType.NVarChar, 200);
+                MessageValue.Direction = ParameterDirection.Output;
+                Command.ExecuteNonQuery();
+
+                RESULT = (string)Command.Parameters["@RESULT"].Value;
+            }
+            catch (SqlException ex)
+            {
+                throw new DarkExceptionSystem(string.Format("SqlException - {0}", ex.Message));
+            }
+
+
         }
         public void StartProcedure(string ProcedureName, List<ProcedureModel> DataModel)
         {

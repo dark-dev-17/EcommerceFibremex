@@ -65,8 +65,6 @@ namespace EcommerceApiLogic.Validators
                 throw new DarkExceptionSystem("Error, el token ha sido destruido o no se ha generadó correctamente");
             }
             int IdCliente = Int32.Parse(currentUser.Claims.FirstOrDefault(c => c.Type == "IdCliente").Value);
-
-
             return IdCliente;
         }
 
@@ -79,6 +77,19 @@ namespace EcommerceApiLogic.Validators
                 throw new DarkExceptionSystem("Error, el token ha sido destruido o no se ha generadó correctamente");
             }
             string IdCliente = currentUser.Claims.FirstOrDefault(c => c.Type == "TipoCliente").Value;
+
+
+            return IdCliente;
+        }
+        public string GetTipoClienteCard(HttpContext httpContext)
+        {
+            var currentUser = httpContext.User;
+
+            if (!currentUser.HasClaim(c => c.Type == "CodigoCliente"))
+            {
+                throw new DarkExceptionSystem("Error, el token ha sido destruido o no se ha generadó correctamente");
+            }
+            string IdCliente = currentUser.Claims.FirstOrDefault(c => c.Type == "CodigoCliente").Value;
 
 
             return IdCliente;
@@ -101,6 +112,7 @@ namespace EcommerceApiLogic.Validators
                 new Claim("rol", "cliente"),
                 new Claim("IdCliente", usuarioInfo.IdCliente.ToString()),
                 new Claim("TipoCliente", usuarioInfo.TipoCliente),
+                new Claim("CodigoCliente", usuarioInfo.CodigoCliente),
                 new Claim(JwtRegisteredClaimNames.Email, usuarioInfo.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

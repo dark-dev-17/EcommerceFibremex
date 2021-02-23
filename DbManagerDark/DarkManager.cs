@@ -9,8 +9,8 @@ namespace DbManagerDark
     public class DarkManager
     {
         #region Propiedades
-        protected DarkConnectionSqlSever ConnectionSqlSever;
-        protected DarkConnectionMySQL ConnectionMySQL;
+        public DarkConnectionSqlSever ConnectionSqlSever { get; internal set; }
+        public DarkConnectionMySQL ConnectionMySQL { get; internal set; }
         protected IConfiguration configuration;
         protected DarkMode darkMode;
         #endregion

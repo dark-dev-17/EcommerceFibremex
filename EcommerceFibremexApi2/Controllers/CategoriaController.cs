@@ -27,8 +27,79 @@ namespace EcommerceFibremexApi2.Controllers
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.Categoria);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.SubCategoria);
+            darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ViewCategorias);
         }
+        /// <summary>
+        /// returns view listar_categorias
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Detalle de pedido encontrado</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<IEnumerable<ViewCategorias>> ListView()
+        {
+            try
+            {
+                var Result = darkDev.ViewCategorias.GetOpenquery("where activo_subcategorias_n1 = 'si'", "order by id_subcategoria_1 asc");
+                return Ok(Result);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+                darkDev = null;
+            }
 
+        }
+        /// <summary>
+        /// Obtiene una cateogira por codio
+        /// </summary>
+        /// <param name="Codigo">Id de la categoria</param>
+        /// <returns></returns>
+        /// <response code="200">Respuesta exitosa</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet("{Codigo}")]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<ViewCategorias> GetByCodigo(string Codigo)
+        {
+            try
+            {
+                var Result = darkDev.ViewCategorias.GetByColumn(Codigo, "codigo");
+                return Ok(Result);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+                darkDev = null;
+            }
+
+        }
         // GET: api/<CategoriaController>
         /// <summary>
         /// Listado de categorias

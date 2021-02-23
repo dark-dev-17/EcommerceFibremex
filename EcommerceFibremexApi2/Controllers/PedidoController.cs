@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DbManagerDark.Exceptions;
 using EcommerceApiLogic.Models;
+using EcommerceApiLogic.ModelsSap;
+using EcommerceApiLogic.Responses;
+using EcommerceApiLogic.Rules;
 using EcommerceApiLogic.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -19,9 +22,10 @@ namespace EcommerceFibremexApi2.Controllers
     public class PedidoController : ControllerBase
     {
         private EcommerceApiLogic.DarkDev darkDev;
+        private PedidoCtrl PedidoCtrl;
         public PedidoController(IConfiguration configuration)
         {
-            darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ecommerce);
+            darkDev = new EcommerceApiLogic.DarkDev(configuration, DbManagerDark.DarkMode.Ambos);
             darkDev.OpenConnection();
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ViewPedido);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.PedidoB2C);
@@ -29,6 +33,8 @@ namespace EcommerceFibremexApi2.Controllers
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ViewDetallePedido);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.ViewPedidoB2C_);
             darkDev.LoadObject(EcommerceApiLogic.MysqlObject.LogErrorsOpenPay);
+
+            PedidoCtrl = new PedidoCtrl(darkDev);
         }
 
         #region Pedidos generales
@@ -442,6 +448,175 @@ namespace EcommerceFibremexApi2.Controllers
                 darkDev.CloseConnection();
             }
         }
+        #endregion
+
+        #region Pedidos SAP
+        /// <summary>
+        /// Obtener pedidos en proceso
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Proceso completo</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<SplittelRespDatas<DocumentReportSap>> GetEnProceso()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
+                if (PedidoCtrl.darkDev.tokenValidationAction.GetTipoCliente(HttpContext) != "B2B")
+                {
+                    return Unauthorized();
+                }
+                string codigo = PedidoCtrl.darkDev.tokenValidationAction.GetTipoClienteCard(HttpContext);
+                var data  = PedidoCtrl.GetEnProcesoHide(codigo);
+                return Ok(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 0,
+                    Message = "Solicitud exitosa",
+                    Datas = data
+                });
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
+            }
+            finally
+            {
+                PedidoCtrl.Terminar();
+            }
+        }
+        /// <summary>
+        /// Obtener pedidos rechadados
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Proceso completo</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<SplittelRespDatas<DocumentReportSap>> GetRechazados()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
+                if (PedidoCtrl.darkDev.tokenValidationAction.GetTipoCliente(HttpContext) != "B2B")
+                {
+                    return Unauthorized();
+                }
+                string codigo = PedidoCtrl.darkDev.tokenValidationAction.GetTipoClienteCard(HttpContext);
+                var data = PedidoCtrl.GetRechazadosHide(codigo);
+                return Ok(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 0,
+                    Message = "Solicitud exitosa",
+                    Datas = data
+                });
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
+            }
+            finally
+            {
+                PedidoCtrl.Terminar();
+            }
+        }
+        /// <summary>
+        /// obtener historico de pedidos
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Proceso completo</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<SplittelRespDatas<DocumentReportSap>> GetHistorico()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
+                if (PedidoCtrl.darkDev.tokenValidationAction.GetTipoCliente(HttpContext) != "B2B")
+                {
+                    return Unauthorized();
+                }
+                string codigo = PedidoCtrl.darkDev.tokenValidationAction.GetTipoClienteCard(HttpContext);
+                var data = PedidoCtrl.GetHistoricoHide(codigo);
+                return Ok(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 0,
+                    Message = "Solicitud exitosa",
+                    Datas = data
+                });
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(new SplittelRespDatas<DocumentReportSap>
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
+            }
+            finally
+            {
+                PedidoCtrl.Terminar();
+            }
+        }
+        
         #endregion
     }
 }

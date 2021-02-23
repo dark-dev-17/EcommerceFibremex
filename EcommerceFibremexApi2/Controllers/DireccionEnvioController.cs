@@ -6,6 +6,8 @@ using DbManagerDark.Exceptions;
 using EcommerceApiLogic;
 using EcommerceApiLogic.Models;
 using EcommerceApiLogic.ModelsSap;
+using EcommerceApiLogic.Responses;
+using EcommerceApiLogic.Resquest;
 using EcommerceApiLogic.Rules;
 using EcommerceApiLogic.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +32,109 @@ namespace EcommerceFibremexApi2.Controllers
 
         #region Direcciones de envio para el tipo de cliente B2B
         /// <summary>
+        /// Editar direccion de envio o facturacion para clientes B2B tipo de direccion  = "B" - facturacion ó "S" envio
+        /// </summary>
+        /// <param name="DireccionEnvFac">datos de la direccion</param>
+        /// <returns></returns>
+        /// <response code="200">Proceso completo</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpPost]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<SplittelRespData> UpdDireccion(DireccionEnvFac DireccionEnvFac)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                DireccionesCtrl.UpdDireccion(DireccionEnvFac);
+                return Ok(new SplittelRespData
+                {
+                    Code = 0,
+                    Message = "Solicitud exitosa",
+                });
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(new SplittelRespData
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(new SplittelRespData
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
+            }
+            finally
+            {
+                DireccionesCtrl.Finish();
+            }
+        }
+        /// <summary>
+        ///  Agregar direccion de envio o facturacion para clientes B2B tipo de direccion  = "B" - facturacion ó "S" envio
+        /// </summary>
+        /// <param name="DireccionEnvFac">datos de la direccion</param>
+        /// <returns></returns>
+        /// <response code="200">Proceso completo</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpPost]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<SplittelRespData> AddDireccion(DireccionEnvFac DireccionEnvFac)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState.Values);
+                }
+                DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
+                DireccionesCtrl.AddDireccion(DireccionEnvFac);
+                return Ok(new SplittelRespData
+                {
+                    Code = 0,
+                    Message = "Solicitud exitosa",
+                });
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(new SplittelRespData
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(new SplittelRespData
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
+            }
+            finally
+            {
+                DireccionesCtrl.Finish();
+            }
+        }
+
+        /// <summary>
         /// Obtiene direccion de envio seleccionada
         /// </summary>
         /// <param name="NombreDireccion">Direccion envio a mostrar</param>
@@ -43,24 +148,40 @@ namespace EcommerceFibremexApi2.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(400)]
-        public ActionResult<DireccionPedido> GetB2B(string NombreDireccion)
+        public ActionResult<SplittelRespData<DireccionPedido>> GetB2B(string NombreDireccion)
         {
             try
             {
                 DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 var Direccion_Re = DireccionesCtrl.GetB2B_envio(NombreDireccion);
                 if (Direccion_Re is null)
-                    return BadRequest("No tiene una dirección");
+                    return BadRequest(new SplittelRespData<DireccionPedido> { 
+                        Code = 1000,
+                        Message = "No fue encontrada la dirección de envio solicitada",
+                    });
                 else
-                    return Ok(Direccion_Re);
+                    return Ok(new SplittelRespData<DireccionPedido>
+                    {
+                        Code = 0,
+                        Message = "Solicitud exitosa",
+                        Data = Direccion_Re
+                    });
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest(new SplittelRespData<DireccionPedido>
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new SplittelRespData<DireccionPedido>
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
             }
             finally
             {
@@ -110,31 +231,48 @@ namespace EcommerceFibremexApi2.Controllers
         /// <returns></returns>
         /// <response code="200">Ultima dirección agregada</response>
         /// <response code="400">Errores de sistema y errores de usuario</response>
-        /// <response code="401">Sin autorizacion(token caducado)</respons
+        /// <response code="401">Sin autorizacion(token caducado)</response>
         [HttpGet]
         [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(400)]
-        public ActionResult<DireccionPedido> GetDefaultB2B()
+        public ActionResult<SplittelRespData<DireccionPedido>> GetDefaultB2B()
         {
             try
             {
                 DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 var Direccion_Re = DireccionesCtrl.GetB2B_envioDef();
                 if (Direccion_Re is null)
-                    return BadRequest("No tiene una dirección");
+                    return BadRequest(new SplittelRespData<DireccionPedido>
+                    {
+                        Code = 1000,
+                        Message = "No se encontro la direccion de facturacion solicitada",
+                    });
                 else
-                    return Ok(Direccion_Re);
+                    return Ok(new SplittelRespData<DireccionPedido>
+                    {
+                        Code = 0,
+                        Message = "Solicitud exitosa",
+                        Data = Direccion_Re
+                    });
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest(new SplittelRespData<DireccionPedido>
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new SplittelRespData<DireccionPedido>
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
             }
             finally
             {
@@ -158,7 +296,7 @@ namespace EcommerceFibremexApi2.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(400)]
-        public ActionResult<DireccionEnvio> GetDefaultB2C()
+        public ActionResult<SplittelRespData<DireccionEnvio>> GetDefaultB2C()
         {
             try
             {
@@ -166,17 +304,34 @@ namespace EcommerceFibremexApi2.Controllers
                 DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
                 var Direccion_Re = DireccionesCtrl.GetB2C_envioDef();
                 if (Direccion_Re is null)
-                    return BadRequest("No tiene una dirección");
+                    return BadRequest(new SplittelRespData<DireccionEnvio>
+                    {
+                        Code = 1000,
+                        Message = "No se encontro la direccion de facturacion solicitada",
+                    });
                 else
-                    return Ok(Direccion_Re);
+                    return Ok(new SplittelRespData<DireccionEnvio>
+                    {
+                        Code = 0,
+                        Message = "Solicitud exitosa",
+                        Data = Direccion_Re
+                    });
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest(new SplittelRespData<DireccionEnvio>
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new SplittelRespData<DireccionEnvio>
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
             }
             finally
             {
@@ -235,29 +390,42 @@ namespace EcommerceFibremexApi2.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(400)]
-        public ActionResult<DireccionEnvio> GetB2C(int id)
+        public ActionResult<SplittelRespData<DireccionEnvio>> GetB2C(int id)
         {
 
             try
             {
                 DireccionesCtrl.IdCliente = DireccionesCtrl.DarkDev.tokenValidationAction.GetIdClienteToken(HttpContext);
-                var Direccion_re = DireccionesCtrl.GetB2C_envio(id);
-                if (Direccion_re != null)
-                {
-                    return Ok(Direccion_re);
-                }
+                var Direccion_Re = DireccionesCtrl.GetB2C_envio(id);
+                if (Direccion_Re is null)
+                    return BadRequest(new SplittelRespData<DireccionEnvio>
+                    {
+                        Code = 1000,
+                        Message = "No fue encontrada la dirección de envio solicitada",
+                    });
                 else
-                {
-                    return BadRequest("Dirección no encontrada");
-                }
+                    return Ok(new SplittelRespData<DireccionEnvio>
+                    {
+                        Code = 0,
+                        Message = "Solicitud exitosa",
+                        Data = Direccion_Re
+                    });
             }
             catch (DarkExceptionSystem ex)
             {
-                return BadRequest("Error sistema");
+                return BadRequest(new SplittelRespData<DireccionEnvio>
+                {
+                    Code = 2000,
+                    Message = ex.Message,
+                });
             }
             catch (DarkExceptionUser ex)
             {
-                return BadRequest( ex.Message);
+                return BadRequest(new SplittelRespData<DireccionEnvio>
+                {
+                    Code = 3000,
+                    Message = ex.Message,
+                });
             }
             finally
             {

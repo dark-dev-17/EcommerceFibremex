@@ -1,6 +1,8 @@
 ﻿using DbManagerDark.Exceptions;
+using EcommerceApiLogic.Catalogos;
 using EcommerceApiLogic.Models;
 using EcommerceApiLogic.ModelsSap;
+using EcommerceApiLogic.Resquest;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,8 @@ namespace EcommerceApiLogic.Rules
         }
 
         #region Cliente B2B
+
+        #region Envio
         /// <summary>
         /// Obtiene direcciones de envio del cliente B2B
         /// </summary>
@@ -46,7 +50,7 @@ namespace EcommerceApiLogic.Rules
         public DireccionPedido GetB2B_envioDef()
         {
             GetUsuarioEcommerce("B2B");
-            return darkDev.DireccionPedido.GetSpecialStat(string.Format("exec Eco_GetAddressByCustomer @CardCode = '{0}', @AdresType = 'S'", Cliente_re.CodigoCliente.Trim())).Find( a => a.Default == "default");
+            return darkDev.DireccionPedido.GetSpecialStat(string.Format("exec Eco_GetAddressByCustomer @CardCode = '{0}', @AdresType = 'S'", Cliente_re.CodigoCliente.Trim())).Find(a => a.Default == "default");
         }
         /// <summary>
         /// Obtiene direccion de envio de acuerdo al nombre enviado como parametro del cliente B2B
@@ -58,6 +62,9 @@ namespace EcommerceApiLogic.Rules
             GetUsuarioEcommerce("B2B");
             return darkDev.DireccionPedido.GetSpecialStat(string.Format("exec Eco_GetAddressByCustomer @CardCode = '{0}', @AdresType = 'S'", Cliente_re.CodigoCliente.Trim())).Find(a => a.Nombre == NombreDir);
         }
+        #endregion
+
+        #region facturacion
         /// <summary>
         /// Obtiene direcciones de facturacion del cliente B2B
         /// </summary>
@@ -89,21 +96,154 @@ namespace EcommerceApiLogic.Rules
         }
         #endregion
 
-        #region Clinete B2C
+        public void AddDireccion(DireccionEnvFac DireccionEnvFac)
+        {
+
+            if(DireccionEnvFac is null)
+            {
+                throw new DarkExceptionUser("Los datos no son validos o son nulos");
+            }
+            if(string.IsNullOrEmpty(DireccionEnvFac.TipoDireccion) || DireccionEnvFac.TipoDireccion.Trim() != "B" && DireccionEnvFac.TipoDireccion.Trim() != "S")
+                throw new DarkExceptionUser($"El tipo de dirección '{DireccionEnvFac.TipoDireccion}' no es valida");
+
+            if(new Pais().Estados.Find(a => a.Value == DireccionEnvFac.Estado.Trim()) == null)
+            {
+                throw new DarkExceptionUser($"No es valido el estado '{DireccionEnvFac.Estado.Trim()}'");
+            }
+
+            GetUsuarioEcommerce("B2B");
+
+            if(DireccionEnvFac.TipoDireccion.Trim() == "B")
+                if(GetB2B_dirFact().Count(a => a.Nombre == DireccionEnvFac.NombreDireccion.Trim()) >= 1)
+                    throw new DarkExceptionUser($"Ya existe una direccion de facturacion con el nombre '{DireccionEnvFac.NombreDireccion.Trim()}'");
+            
+            if (DireccionEnvFac.TipoDireccion.Trim() == "S")
+                if (GetB2B_dirEnv().Count(a => a.Nombre == DireccionEnvFac.NombreDireccion.Trim()) >= 1)
+                    throw new DarkExceptionUser($"Ya existe una direccion de envio con el nombre '{DireccionEnvFac.NombreDireccion.Trim()}'");
+
+            WS_BussinesPartner.WS_BussinesPartnerSoapClient.EndpointConfiguration endpoint = new WS_BussinesPartner.WS_BussinesPartnerSoapClient.EndpointConfiguration();
+            WS_BussinesPartner.WS_BussinesPartnerSoapClient wS_BussinesPartnerSoap = new WS_BussinesPartner.WS_BussinesPartnerSoapClient(endpoint);
+            var responseString = wS_BussinesPartnerSoap.AddNewAddressBussinesPartnerAsync(
+                new WS_BussinesPartner.Usuario
+                {
+                    Password = new Validators.EncriptDataEcomUsers(Cliente_re.CodigoCliente.Trim()).Encrypt(Cliente_re.PasswordB2B.Trim()),
+                    Society = "FIBREMEX",
+                    UserKey = Cliente_re.CodigoCliente.Trim()
+                },
+                new WS_BussinesPartner.BussinessPartnerAdresses
+                {
+                    Street = DireccionEnvFac.Calle,
+                    StreetNo = DireccionEnvFac.NumeroExterior,
+                    Block = DireccionEnvFac.Colonia,
+                    County = DireccionEnvFac.Municipio,
+                    ZipCode = DireccionEnvFac.CP,
+                    State = DireccionEnvFac.Estado,
+                    City = DireccionEnvFac.Ciudad,
+                    AddressName = DireccionEnvFac.NombreDireccion,
+                    AddressType = DireccionEnvFac.TipoDireccion == "B" ? "BillTo" : "ShipTo",
+                    Default = DireccionEnvFac.Default,
+                }
+            ).Result;
+
+            if(responseString.AddNewAddressBussinesPartnerResult.ErrorCode != 0)
+            {
+                throw new DarkExceptionUser("Error al agregar la dirección");
+            }
+
+        }
+        public void UpdDireccion(DireccionEnvFac DireccionEnvFac)
+        {
+
+            if (DireccionEnvFac is null)
+            {
+                throw new DarkExceptionUser("Los datos no son validos o son nulos");
+            }
+            if (string.IsNullOrEmpty(DireccionEnvFac.TipoDireccion) || DireccionEnvFac.TipoDireccion.Trim() != "B" && DireccionEnvFac.TipoDireccion.Trim() != "S")
+                throw new DarkExceptionUser($"El tipo de dirección '{DireccionEnvFac.TipoDireccion}' no es valida");
+
+            if (new Pais().Estados.Find(a => a.Value == DireccionEnvFac.Estado.Trim()) == null)
+            {
+                throw new DarkExceptionUser($"No es valido el estado '{DireccionEnvFac.Estado.Trim()}'");
+            }
+
+            GetUsuarioEcommerce("B2B");
+            string TipoDireccion = "";
+            if (DireccionEnvFac.TipoDireccion.Trim() == "B")
+            { 
+                var data = GetB2B_dirFact().ToList();
+                if (data.Count(a => a.Nombre == DireccionEnvFac.NombreDireccion.Trim()) != 1)
+                    throw new DarkExceptionSystem($"No existe una direccion de facturacion con el nombre '{DireccionEnvFac.NombreDireccion.Trim()}'");
+
+
+                //TipoDireccion = data.Find(a => a.Nombre == DireccionEnvFac.NombreDireccion.Trim()).Nombre;
+            }
+                
+
+            if (DireccionEnvFac.TipoDireccion.Trim() == "S")
+            {
+                var data = GetB2B_dirEnv().ToList();
+                if (data.Count(a => a.Nombre == DireccionEnvFac.NombreDireccion.Trim()) != 1)
+                    throw new DarkExceptionSystem($"No existe una direccion de envio con el nombre '{DireccionEnvFac.NombreDireccion.Trim()}'");
+
+                //TipoDireccion = data.Find(a => a.Nombre == DireccionEnvFac.NombreDireccion.Trim()).;
+            }
+                
+
+            WS_BussinesPartner.WS_BussinesPartnerSoapClient.EndpointConfiguration endpoint = new WS_BussinesPartner.WS_BussinesPartnerSoapClient.EndpointConfiguration();
+            WS_BussinesPartner.WS_BussinesPartnerSoapClient wS_BussinesPartnerSoap = new WS_BussinesPartner.WS_BussinesPartnerSoapClient(endpoint);
+            var responseString = wS_BussinesPartnerSoap.UpdateAddressBussinesPartnerAsync(
+                new WS_BussinesPartner.Usuario
+                {
+                    Password = new Validators.EncriptDataEcomUsers(Cliente_re.CodigoCliente.Trim()).Encrypt(Cliente_re.PasswordB2B.Trim()),
+                    Society = "FIBREMEX",
+                    UserKey = Cliente_re.CodigoCliente.Trim()
+                },
+                new WS_BussinesPartner.BussinessPartnerAdresses
+                {
+                    Street = DireccionEnvFac.Calle,
+                    StreetNo = DireccionEnvFac.NumeroExterior,
+                    Block = DireccionEnvFac.Colonia,
+                    County = DireccionEnvFac.Municipio,
+                    ZipCode = DireccionEnvFac.CP,
+                    State = DireccionEnvFac.Estado,
+                    City = DireccionEnvFac.Ciudad,
+                    AddressName = DireccionEnvFac.NombreDireccion,
+                    AddressType = DireccionEnvFac.TipoDireccion == "B" ? "BillTo": "ShipTo",
+                    Default = DireccionEnvFac.Default,
+                }
+            ).Result;
+
+            if (responseString.UpdateAddressBussinesPartnerResult.ErrorCode != 0)
+            {
+                throw new DarkExceptionUser("Error al agregar la dirección");
+            }
+        }
+
+        #endregion
+
+        #region Cliente B2C
 
         #region envio
+        /// <summary>
+        /// Obtener direcciones de envio para clientes B2C
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<DireccionEnvio> GetB2C_dirEnv()
         {
             var direcciones_re = darkDev.DireccionEnvio.Get("" + this.IdCliente, darkDev.DireccionEnvio.ColumName(nameof(darkDev.DireccionEnvio.Element.IdCliente)));
-            return direcciones_re;
+            return direcciones_re.Where(a => a.Activo == "si").ToList();
         }
-
+        /// <summary>
+        /// Obtener direccion de envio default
+        /// </summary>
+        /// <returns></returns>
         public DireccionEnvio GetB2C_envioDef()
         {
             int IdDireccion = darkDev.DireccionEnvio.GetLastId(darkDev.DireccionEnvio.ColumName(nameof(darkDev.DireccionEnvio.Element.IdCliente)), "" + this.IdCliente);
             var Direccion_Re = darkDev.DireccionEnvio.Get(IdDireccion);
-
-            return Direccion_Re;
+            if (Direccion_Re == null)
+                return null;
+            return Direccion_Re.Activo == "si" ? Direccion_Re : null;
         }
 
         /// <summary>
@@ -116,8 +256,12 @@ namespace EcommerceApiLogic.Rules
             var Direccion_Re = darkDev.DireccionEnvio.Get(IdDireccionenvio);
             if (Direccion_Re == null)
                 return null;
-            return Direccion_Re.IdCliente == this.IdCliente ? Direccion_Re : null ;
+            return Direccion_Re.IdCliente == this.IdCliente && Direccion_Re.Activo == "si" ? Direccion_Re : null ;
         }
+        /// <summary>
+        /// Actualizar direccion de envio
+        /// </summary>
+        /// <param name="DireccionEnvio"></param>
         public void UpdB2C_envio(DireccionEnvio DireccionEnvio)
         {
             darkDev.StartTransaction();
@@ -149,6 +293,10 @@ namespace EcommerceApiLogic.Rules
                 throw;
             }
         }
+        /// <summary>
+        /// agregar direccion de envio
+        /// </summary>
+        /// <param name="DireccionEnvio"></param>
         public void AddB2C_envio(DireccionEnvio DireccionEnvio)
         {
             darkDev.StartTransaction();
@@ -183,7 +331,7 @@ namespace EcommerceApiLogic.Rules
         public IEnumerable<DireccionFacturacion> GetB2C_dirFact()
         {
             var direcciones_re = darkDev.DireccionFacturacion.Get("" + this.IdCliente, darkDev.DireccionFacturacion.ColumName(nameof(darkDev.DireccionFacturacion.Element.IdCliente)));
-            return direcciones_re;
+            return direcciones_re.Where(a => a.Activo == "si").ToList();
         }
         /// <summary>
         /// Obtiene direccion de facturacion por default
@@ -193,10 +341,10 @@ namespace EcommerceApiLogic.Rules
         {
             int IdDireccion = darkDev.DireccionFacturacion.GetLastId(darkDev.DireccionFacturacion.ColumName(nameof(darkDev.DireccionFacturacion.Element.IdCliente)), "" + this.IdCliente);
             var Direccion_Re = darkDev.DireccionFacturacion.Get(IdDireccion);
-
-            return Direccion_Re;
+            if (Direccion_Re == null)
+                return null;
+            return  Direccion_Re.Activo == "si" ? Direccion_Re : null;
         }
-
         /// <summary>
         /// Obtener direccion facturacion seleccionada
         /// </summary>
@@ -209,15 +357,18 @@ namespace EcommerceApiLogic.Rules
             if (Direccion_Re == null)
                 return null;
 
-            return Direccion_Re.IdCliente == this.IdCliente ? Direccion_Re : null;
+            return Direccion_Re.IdCliente == this.IdCliente && Direccion_Re.Activo == "si" ? Direccion_Re : null;
         }
-
+        /// <summary>
+        /// Actualizar direccion de facturacion
+        /// </summary>
+        /// <param name="DireccionFacturacion"></param>
         public void UpdB2C_fact(DireccionFacturacion DireccionFacturacion)
         {
             darkDev.StartTransaction();
             try
             {
-                var Direccion_re = darkDev.DireccionEnvio.Get(DireccionFacturacion.IdDireccionFacturacion);
+                var Direccion_re = darkDev.DireccionFacturacion.Get(DireccionFacturacion.IdDireccionFacturacion);
 
                 if (DireccionFacturacion == null)
                     throw new DarkExceptionUser("Los datos no son validos o son nulos");
@@ -243,7 +394,10 @@ namespace EcommerceApiLogic.Rules
                 throw;
             }
         }
-
+        /// <summary>
+        /// Agregar direccion de facturacion
+        /// </summary>
+        /// <param name="DireccionFacturacion"></param>
         public void AddB2C_fact(DireccionFacturacion DireccionFacturacion)
         {
             darkDev.StartTransaction();

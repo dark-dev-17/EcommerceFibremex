@@ -122,8 +122,16 @@ namespace EcommerceApiLogic.Models
         [DarkColumn(Name = "ruta", IsMapped = true, IsKey = false)]
         public string RutaFicha { get; set; }
 
-        [DarkColumn(Name = "ImagenesSlide", IsMapped = true, IsKey = false)]
+        [DarkColumn(Name = "ImagenesSlide", IsMapped = false, IsKey = false)]
         public List<string> SlideImg { get; set; }
+        [DarkColumn(Name = "ImagenesSlide", IsMapped = false, IsKey = false)]
+        public List<string> SlideImgAdicionales { get; set; }
+        [DarkColumn(Name = "ImagenesSlide", IsMapped = false, IsKey = false)]
+        public List<string> SlideImgDescripcion { get; set; }
+
+
+        [DarkColumn(Name = "ruta", IsMapped = false, IsKey = false)]
+        public string EncryptID { get { return Validators.EncryptData.EncryptProd(Codigo); } }
 
     }
 }

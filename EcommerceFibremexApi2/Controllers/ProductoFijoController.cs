@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbManagerDark.Exceptions;
+using EcommerceApiLogic.Enums;
+using EcommerceApiLogic.Herramientas;
 using EcommerceApiLogic.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -177,6 +179,70 @@ namespace EcommerceFibremexApi2.Controllers
 
         }
 
+        /// <summary>
+        /// Obtener archivos del producto seleccionado
+        /// </summary>
+        /// <param name="Codigo"></param>
+        /// <param name="Tipo">0.- Producto, 1.- Descripcion, 2.- InfoAdicional, 3.- Miniatura</param>
+        /// <returns></returns>
+        /// <response code="200">Detalle del producto</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet()]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<List<FileFtp>> GetFiles(string Codigo, ProductoTipoFile Tipo)
+        {
+            try
+            {
+                Codigo = EcommerceApiLogic.Validators.EncryptData.DecryptProd(Codigo);
+                // Limpiar codigo de caracteres como [/] remplazar por  [-]
+                string CodigoReal = Codigo;
+                Codigo = Codigo.Replace('-', '/');
+                string Path = "";
+                string RutePublic = "";
+                if (Tipo == ProductoTipoFile.Producto)
+                {
+                    Path = $"public_html/fibra-optica/public/images/img_spl/productos/{Codigo}/*.jpg";
+                    RutePublic = string.Format(@"images/img_spl/productos/{0}/", Codigo);
+                }
+                else if (Tipo == ProductoTipoFile.Descripcion)
+                {
+                    Path = $"public_html/fibra-optica/public/images/img_spl/productos/{Codigo}/descripcion/*.jpg";
+                    RutePublic = string.Format(@"images/img_spl/productos/{0}/descripcion/", Codigo);
+                }
+                else if (Tipo == ProductoTipoFile.InfoAdicional)
+                {
+                    Path = $"public_html/fibra-optica/public/images/img_spl/productos/{Codigo}/adicional/*.jpg";
+                    RutePublic = string.Format(@"images/img_spl/productos/{0}/adicional/", Codigo);
+                }
+                else if (Tipo == ProductoTipoFile.Miniatura)
+                {
+                    Path = $"public_html/fibra-optica/public/images/img_spl/productos/{Codigo}/thumbnail/*.jpg";
+                    RutePublic = string.Format(@"images/img_spl/productos/{0}/thumbnail/", Codigo);
+                }
+
+                var result = darkDev.FtpFiles.GetFiles(Path.Replace("*.jpg", ""), RutePublic, "jpg");
+                
+                return Ok(result);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+        }
+
         // GET api/<ProductoFijoController>/5
         /// <summary>
         /// Detalle del producto seleccionado, imagenes
@@ -196,18 +262,70 @@ namespace EcommerceFibremexApi2.Controllers
         {
             try
             {
+
+                id = EcommerceApiLogic.Validators.EncryptData.DecryptProd(id);
+
+
+                var Result = darkDev.ProductoFijo.Get(id);
+                string Domain = configuration.GetSection("Ftp").GetSection("Domain").Value;
+
+                Result.SlideImg = new List<string>();
+                Result.SlideImgAdicionales = new List<string>();
+                Result.SlideImgDescripcion = new List<string>();
+
+
+                darkDev.FtpFiles.GetFiles(
+                    $"public_html/fibra-optica/public/images/img_spl/productos/{id}/",
+                    string.Format(@"images/img_spl/productos/{0}/", id), "jpg")
+                .ForEach(a => {
+                    Result.SlideImg.Add(a.Ruta);
+                });
+
+                return Ok(Result);
+            }
+            catch (DarkExceptionSystem ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (DarkExceptionUser ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                darkDev.CloseConnection();
+            }
+        }
+        /// <summary>
+        /// Obtener artiulo en lista
+        /// </summary>
+        /// <param name="id">Codigo del articulo</param>
+        /// <returns></returns>
+        /// <response code="200">Detalle del producto</response>
+        /// <response code="400">Errores de sistema y errores de usuario</response>
+        /// <response code="401">Sin autorizacion(token caducado)</response>
+        [HttpGet("{id}")]
+        [Authorize]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        public ActionResult<IEnumerable<ProductoFijo>> GetInList(string id)
+        {
+            try
+            {
                 var Result = darkDev.ProductoFijo.Get(id);
 
-                var Images = darkDev.FtpFiles.GetFiles(string.Format("public_html/fibra-optica/public/images/img_spl/productos/{0}/*.jpg", id));
+                var Images = darkDev.FtpFiles.GetFiles($"public_html/fibra-optica/public/images/img_spl/productos/{id}/", string.Format(@"images/img_spl/productos/{0}/", id), "jpg");
 
                 string Domain = configuration.GetSection("Ftp").GetSection("Domain").Value;
 
                 Result.SlideImg = new List<string>();
 
                 Images.ForEach(a => {
-                    Result.SlideImg.Add(string.Format(@"{0}/fibra-optica/public/images/img_spl/productos/{1}/{2}", Domain, id, a));
+                    Result.SlideImg.Add(a.Ruta);
                 });
-                return Ok(Result);
+                return Ok(new List<ProductoFijo> { Result });
             }
             catch (DarkExceptionSystem ex)
             {

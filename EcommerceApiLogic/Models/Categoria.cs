@@ -30,4 +30,6 @@ namespace EcommerceApiLogic.Models
         public List<SubCategoria> SubCategorias { get; set; }
 
     }
+
+    
 }

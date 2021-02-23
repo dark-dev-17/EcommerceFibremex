@@ -42,7 +42,7 @@ namespace DbManagerDark.Managers
             return Nombre;
         }
 
-        public bool Add()
+        public bool Add(bool ForceNUlls = false)
         {
             DarkTable tableDefinifiton = GetClassAttribute();
             if (tableDefinifiton.IsView)
@@ -56,7 +56,7 @@ namespace DbManagerDark.Managers
             }
             else
             {
-                return ActionsObjectCode(DbManagerTypes.Add, tableDefinifiton);
+                return ActionsObjectCode(DbManagerTypes.Add, tableDefinifiton, ForceNUlls);
             }
 
         }
@@ -205,6 +205,16 @@ namespace DbManagerDark.Managers
         public List<T> GetOpenquery(string where, string Order)
         {
             return DataReader(string.Format("select * from {0} {1} {2}", Nametable, where, Order));
+        }
+
+        public T GetOpenquerys(string where)
+        {
+            var Lista =  DataReader(string.Format("select * from {0} {1}", Nametable, where));
+            if (Lista.Count == 0)
+            {
+                return default(T);
+            }
+            return Lista.ElementAt(0);
         }
 
         private string KeyCol()
@@ -386,7 +396,7 @@ namespace DbManagerDark.Managers
             }
         }
 
-        private bool ActionsObjectCode(DbManagerTypes dbManagerTypes, DarkTable tableDefinifiton)
+        private bool ActionsObjectCode(DbManagerTypes dbManagerTypes, DarkTable tableDefinifiton, bool ForceNUlls = false)
         {
             //DarkTable tableDefinifiton = GetClassAttribute();
             bool result = false;
@@ -466,7 +476,7 @@ namespace DbManagerDark.Managers
                     }
                 }
 
-                dBConnection.StartInsert(Statement, procedureModels);
+                dBConnection.StartInsert(Statement, procedureModels, ForceNUlls);
                 result = true;
             }
             else if (dbManagerTypes == DbManagerTypes.Update)
